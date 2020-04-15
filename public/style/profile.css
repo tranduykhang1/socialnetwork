@@ -1,0 +1,111 @@
+* {
+    margin: 0;
+    padding: 0;
+    text-decoration: none;
+}
+
+.profile {
+    margin-top: 50px;
+}
+
+.image-profile {
+    height: 280px;
+    position: relative;
+    z-index: 1;
+}
+
+#avt {
+    z-index: -1;
+    margin-top: -60px;
+    border-radius: 50%;
+}
+
+.d-flex {
+    margin-top: 100px;
+    margin-bottom: 30px;
+}
+
+.per-profile {
+    height: 350px;
+    border-radius: 10px;
+    background-color: white;
+}
+
+.per-profile ul li {
+    border: none !important;
+}
+
+#post-avt {
+    border-radius: 50px;
+}
+
+.post-profile {
+    height: 100%;
+    margin-top: -20px;
+}
+
+.list-group .list-group-item {
+    background: transparent;
+    border-bottom: .5px solid rgb(228, 228, 228);
+    font-size: 15px;
+}
+
+.card-title {
+    margin-top: 15px;
+}
+
+.card-footer {
+    background-color: transparent !important;
+    margin-top: 10px;
+    border-top: 1px solid rgb(231, 231, 231);
+    padding: 2px;
+}
+
+.input-img {
+    display: none;
+}
+
+#input-img-label {
+    cursor: pointer;
+    background: rgb(158, 158, 158);
+    padding: 10px 30px;
+    margin: 10px;
+    border-radius: 4px;
+    color: white
+}
+
+#change-cover-bg {
+    position: absolute;
+    right: 22px;
+    bottom: 8px;
+    z-index: 1;
+    background-color: rgb(163, 163, 163);
+    cursor: pointer;
+    padding: 3px 5px;
+    opacity: .8;
+    transition: .4s;
+}
+
+#change-cover-bg:hover {
+    background: white;
+    opacity: 1;
+}
+
+.img-user-cmt {
+    border-radius: 50px;
+    width: 50px;
+    height: 50px;
+}
+
+.media-body p {
+    padding: 0 !important;
+    margin: 0 !important;
+}
+
+.media-body span {
+    font-size: 12px;
+}
+
+.comment {
+    border-bottom: 1px solid rgb(231, 231, 231);
+}

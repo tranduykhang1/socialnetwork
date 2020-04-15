@@ -1,0 +1,146 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+.row .side {
+    margin-top: 50px;
+    padding: 0;
+    background-color: white;
+}
+
+.main {
+    height: 100%;
+}
+
+#avt-user-list {
+    border-radius: 50px;
+    height: 50px;
+    width: 50px;
+}
+
+#list-users {
+    border-right: .5px solid rgb(122, 122, 122);
+}
+
+.list-group {
+    padding-bottom: 0;
+    overflow: auto;
+    max-height: 75vh;
+}
+
+.list-group a {
+    background-color: transparent;
+    border: none;
+    border-radius: 4px;
+}
+
+.list-group-item {
+    background-color: transparent !important;
+    transition: .3s;
+}
+
+.list-group-item:hover {
+    background-color: rgb(219, 219, 219) !important;
+}
+
+.user-header {
+    padding: 25.3px 0;
+    border-bottom: 1px solid rgb(172, 172, 172);
+}
+
+#avt-user-chat {
+    height: 65px;
+    width: 65px;
+    border-radius: 50px;
+}
+
+.chat-header {
+    border-bottom: 1px solid rgb(172, 172, 172);
+    padding: 7px 0;
+}
+
+.message {
+    clear: both;
+    margin-bottom: 10px;
+    margin-right: 5px;
+    word-wrap: break-word;
+    max-width: 300px;
+    padding: 5px;
+    border-radius: 5px;
+}
+
+#my-message {
+    background: #007bff;
+    color: white;
+}
+
+#friend-message {
+    background: rgb(231, 231, 231);
+}
+
+#chat-box {
+    overflow: auto;
+    max-height: 72.5vh;
+}
+
+.message span {
+    color: rgb(78, 78, 78);
+    font-size: 13px;
+}
+
+#chat-input {
+    padding: 0;
+    border-top: 1px solid rgb(218, 218, 218);
+}
+
+#input-message {
+    background: rgb(77, 77, 77);
+    border: none;
+    border-radius: 0;
+    padding: 10px 0 !important;
+    height: 50px !important;
+}
+
+input[type=text] {
+    margin-left: 15px;
+}
+
+#input-message:focus {
+    box-shadow: none;
+}
+
+#infor-user {
+    border-left: .5px solid rgb(122, 122, 122);
+}
+
+#avt-user-active {
+    width: 100px;
+    height: 100px;
+    border-radius: 50px;
+}
+
+.info {
+    border: none !important;
+}
+
+.info:hover {
+    background-color: transparent !important;
+}
+
+::-webkit-scrollbar {
+    width: 5px;
+}
+
+::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+ ::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 50px;
+}
+
+ ::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}

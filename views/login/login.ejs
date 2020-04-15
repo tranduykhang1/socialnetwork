@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dika</title>
+    <link rel="stylesheet" href="/bootstrap/css/bootstrap.min.css" />
+    <script src="/bootstrap/js/jquery.min.js"></script>
+    <script src="/bootstrap/js/bootstrap.min.js"></script>
+    <script src="/event/jquery-3.4.1.min.js"></script>
+    <link rel="stylesheet" href="/style/login-home.css" />
+</head>
+
+<body>
+    <div id="main" class="container-fluid">
+        <div class="row">
+            <div class="col-sm-12 header">
+                <p class="text-center title">DiKa</p>
+            </div>
+            <div class="col-sm-4 col-md-4 mx-auto mt-5 border-none">
+                <div class="card card-signin my-5 shadow">
+                    <div class="card-body">
+                        <h5 class="card-title text-center" id="title">Đăng nhập</h5>
+                        <div id="form">
+                            <form action='login' method="POST">
+                                <div class="form-label-group pt-5">
+                                    <input name="username" type="text" class="form-control" placeholder="Tên đăng nhập" required autofocus>
+                                </div>
+
+                                <div class="form-label-group pt-3">
+                                    <input name="password" type="password" class="form-control" placeholder="Mật khẩu" required>
+                                    <p class="text-danger">
+                                        <%- errMsg ? errMsg : "" %>
+                                    </p>
+                                </div>
+                                <button class="btn btn-lg btn-primary btn-block text-uppercase mt-3 mb-5" type="submit">Đăng nhập</button>
+                                <p class='text-center toggle'><a href="/resgister">Đăng kí tại đây</a></p>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+</body>
+
+</html>

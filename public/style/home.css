@@ -1,0 +1,98 @@
+* {
+    margin: 0;
+    padding: 0;
+    text-decoration: none;
+}
+
+.main {
+    margin-top: 80px;
+}
+
+#post-status {
+    background-color: rgb(255, 255, 255);
+    border-radius: 10px;
+}
+
+#btn-model-post {
+    border-radius: 40px;
+    color: grey;
+}
+
+#post-avt {
+    border-radius: 50px;
+}
+
+#create-post-input {
+    border: none;
+    border-bottom: .5px solid rgb(207, 207, 207);
+    border-top: .5px solid rgb(207, 207, 207);
+    border-radius: 0;
+    padding-bottom: 200px;
+    word-wrap: break-word;
+    max-height: 300px;
+}
+
+#create-post-input::-webkit-scrollbar {
+    width: 10px;
+}
+
+#create-post-input:focus {
+    box-shadow: none;
+}
+
+.post-frame {
+    border: 2px solid black;
+}
+
+.post-detail {
+    position: relative;
+    height: 50px;
+    padding: 0;
+}
+
+#post-time {
+    position: absolute;
+    font-size: 13px;
+    top: 25px;
+    color: grey;
+}
+
+.post-action a {
+    color: black;
+}
+
+.post-action a:hover {
+    text-decoration: none;
+    color: grey;
+}
+
+.post-action i,
+span {
+    padding: 1px;
+}
+
+.card-footer {
+    background-color: transparent !important;
+    margin-top: 10px;
+    border-top: 1px solid rgb(231, 231, 231);
+    padding: 2px;
+}
+
+.img-user-cmt {
+    border-radius: 50px;
+    width: 50px;
+    height: 50px;
+}
+
+.media-body p {
+    padding: 0 !important;
+    margin: 0 !important;
+}
+
+.media-body span {
+    font-size: 12px;
+}
+
+.comment {
+    border-bottom: 1px solid rgb(231, 231, 231);
+}

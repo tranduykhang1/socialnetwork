@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel='stylesheet' href="/style/message.css" />
+    <script src="/event/jquery-3.4.1.min.js"></script>
+    <title>DiKa</title>
+</head>
+
+<body>
+    <%- include('./layout/header.ejs'); %>
+
+        <div class="container-fluid main">
+            <div class="row">
+                <div class="col-sm-3 side" id="list-users">
+                    <div class="user-header">
+                        <p class="text-center">
+                            Tin nhắn <i class="far fa-edit ml-1"></i>
+                        </p>
+                    </div>
+                    <div class="list-group mt-2">
+                        <a href="#" class="list-group-item list-group-item-action">
+                            <img id="avt-user-list" src="img/avt.png" alt="">
+                            <span class="ml-2">Tên user</span>
+                        </a>
+                        <a href="#" class="list-group-item list-group-item-action"> <img id="avt-user-list" src="img/avt.png" alt="">
+                            <span class="ml-2">Tên user</span></a>
+                        <a href="#" class="list-group-item list-group-item-action"> <img id="avt-user-list" src="img/avt.png" alt="">
+                            <span class="ml-2">Tên user</span></a>
+                    </div>
+
+                </div>
+                <div class="col-sm-6 col-md-6 side" id="chat-main">
+                    <div class="col-sm-12 d-flex mt-2 mx-auto chat-header">
+                        <img id="avt-user-chat" src="img/avt.png" alt="">
+                        <div class="d-block p-3">
+                            <h4>Ten user</h4>
+                        </div>
+                    </div>
+                    <div class="d-block mt-2" id="chat-box">
+                        <div id="my-message" class="d-block float-right text-right message">
+                            <p>Day la noi dung tin nhan di </p>
+                            <span>7:00</span>
+                        </div>
+                        <div id="friend-message" class="d-block float-left ml-2 message">
+                            <p>Day la noi dung tin nhan den </p>
+                            <span>7:00</span>
+                        </div>
+                    </div>
+                    <div id="chat-input" class="mt-1">
+                        <form action="#" class="bg-light">
+                            <div class="input-group">
+                                <input id="input-message" type="text" placeholder="Nhập tin nhắn" aria-describedby="button-addon2" class="form-control bg-light" autocomplete="off">
+                                <button id="btn-send-messqge" type="submit" class="btn btn-link"> <i class="fa fa-paper-plane"></i></button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="col-sm-3 col-md-3 side" id="infor-user">
+                    <div class="text-center mt-4 d-block">
+                        <img id="avt-user-active" src="img/avt.png" alt="">
+                        <h5 class="p-2">Tên user</h5>
+                        <ul class="list-group-flush mt-5">
+                            <li class="list-group-item info">Họ tên:
+                                <strong>  </strong>
+                            </li>
+                            <li class="list-group-item info">Giới tính:
+                                <strong> </strong>
+                            </li>
+                            <li class="list-group-item info">Đến từ:
+                                <strong></strong>
+                            </li>
+                            <li class="list-group-item info">Email:
+                                <strong> </strong>
+                            </li>
+                            <li class="list-group-item info">Giới thiệu:
+                                <strong></strong>
+
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+</body>
+<script>
+    $(document).ready(function() {
+        $(".nav li").removeClass('active');
+        $('#message').addClass('active');
+
+
+        for (let i = 0; i < 20; i++) {
+            $('#chat-box').append(
+                ' <div id="my-message" class="d-block float-right text-left message">' +
+                '     <p>Day la noi dung tin nhan di </p>' +
+                '<span>7:00</span>' +
+                '  </div>' +
+                ' <div id="friend-message" class="d-block ml-2 float-left message">' +
+                '  <p>Day la noi dung tin nhan den </p>' +
+                '<span>7:00</span>' +
+                '  </div>'
+            )
+            $('.list-group').append(
+                '   <a href="#" class="list-group-item list-group-item-action">' +
+                '    <img id="avt-user-list" src="img/avt.png" alt="">' +
+                '    <span class="ml-2">Tên user</span>' +
+                ' </a>'
+            )
+        }
+
+        let sendMess = () => {
+            $('#btn-send-messqge').click((e) => {
+                e.preventDefault();
+                if ($('#input-message').val()) {
+                    $('#chat-box').append(
+                        ' <div id="my-message" class="d-block float-right text-left message">' +
+                        '     <p>' + $('#input-message').val() + '</p>' +
+                        '<span>7:00</span>' +
+                        '  </div>'
+                    )
+                }
+                $('#input-message').val("");
+            })
+        }
+
+
+        let ScrollBottom = () => {
+            var scroll = $('#chat-box');
+            scroll.animate({
+                scrollTop: scroll.prop("scrollHeight")
+            });
+        }
+        let PressEnter = () => {
+            $('body').keypress(async(e) => {
+                var code = e.keyCode || e.which;
+                if (code === 13) {
+                    ScrollBottom();
+                    await sendMess();
+
+                }
+
+            });
+        }
+        PressEnter();
+    })
+</script>
+
+</html>

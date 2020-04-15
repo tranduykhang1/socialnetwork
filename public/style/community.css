@@ -1,0 +1,32 @@
+* {
+    margin: 0;
+    padding: 0;
+    text-decoration: none;
+}
+
+.d-flex {
+    text-decoration: none;
+    color: black;
+}
+
+.d-flex:hover {
+    color: black;
+    text-decoration: none;
+}
+
+.row {
+    margin-top: 20px;
+}
+
+#user-avt {
+    border-radius: 40px;
+}
+
+#user-block {
+    border-bottom: .5px solid rgb(209, 209, 209);
+    transition: .2s;
+}
+
+#user-block:hover {
+    border-bottom: .5px solid rgb(148, 148, 148);
+}
