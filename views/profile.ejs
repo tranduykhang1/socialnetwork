@@ -18,7 +18,7 @@
                     <img class="img-fluid h-100 w-100" id="cover-bg" src="<%=user.user_background%>" alt="">
                     <span id="change-cover-bg" data-toggle="modal" data-target="#update_cover-bg">Thay đổi ảnh bìa</span>
                     <div class="avt-profile mx-auto text-center d-block">
-                        <img id="avt" src="<%=user.user_avatar%>" width="120px" height="120px" />
+                        <img id="avt" class='rounded-circle' src="<%=user.user_avatar%>" width="120px" height="120px" />
                         <i class="fas fa-camera" title="Cập nhật ảnh đại diện" data-toggle="modal" data-target="#update_avt"></i>
                         </input>
                         <h5>
@@ -73,26 +73,113 @@
                 <div class="d-flex mx-auto col-sm-10">
                     <div class="per-profile col-sm-4 col-lg-4 mx-auto border">
                         <ul class="list-group list-group-flush mt-3">
-                            <li class="list-group-item">Họ tên:
-                                <strong>  <%-user.user_lastname%></strong>
-                            </li>
-                            <li class="list-group-item">Giới tính:
-                                <strong>  <%-user.user_lastname%></strong>
-                            </li>
                             <li class="list-group-item">Đến từ:
                                 <strong> <%-user.user_address%></strong>
                             </li>
+                            <li class="list-group-item">Giới tính:
+                                <strong>  <%-user.user_gender%></strong>
+                            </li>
+
                             <li class="list-group-item">Email:
                                 <strong> <%-user.user_email%></strong>
                             </li>
                             <li class="list-group-item">Giới thiệu:
                                 <strong> <%-user.user_bio%></strong>
-
                             </li>
                         </ul>
+                        <button class=" col-sm-12 btn btn-light text-primary btn-update" data-toggle="modal" data-target="#update_profile"> Cập nhật</button>
                     </div>
+
+                    <div class="modal fade" id="update_profile" tabindex="-1" role="dialog" aria-labelledby="update" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h6 class="modal-title">Cập nhật thông tin</h6>
+                                </div>
+                                <form action="/profile/updateProfile" method="post">
+                                    <div class="modal-body">
+                                        <div class="form-group">
+                                            <label for="">Đến từ:</label>
+                                            <input type="text" name="address_update" class="form-control" value="<%=user.user_address%>" placeholder="Trống">
+                                            <label for="">Giới tính</label>
+                                            <div class="form-label-group mb-3 gender">
+                                                <select class="custom-select" name="gender_update">
+                                                <option value="">--Chọn--</option>
+                                                <option name="nam" >Nam</option>
+                                                <option name="nữ">Nữ</option>
+                                                <option name="khác" >Khác</option>
+                                              </select>
+                                            </div>
+                                            <label for="">Email: </label>
+                                            <input type="text" name="email_update" class="form-control" value="<%=user.user_email%>" placeholder="Trống">
+                                            <label for="">Giới thiệu: </label>
+                                            <textarea type="text" name="bio_update" class="form-control" placeholder="Trống (tối da 100 kí tự)"><%=user.user_bio%></textarea>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="col-sm-4 btn btn-light" data-dismiss="modal">Huỷ</button>
+                                        <button type="submit" class="col-sm-4 btn btn-outline-primary">Cập nhật</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+
                     <div class="post-profile col-sm-7 col-lg-7 mx-auto ml-5 ">
+
+                        <% post.forEach((post, index) =>{%>
+                            <div class="card col-sm-12 mx-auto mt-4 shadow post-frame">
+                                <div class="card-body mt-1 p-0">
+                                    <div class="card-title d-flex">
+                                        <img id="post-avt" src="<%=post.user_avatar%>" alt="" width="50px" height="50px">
+                                        <div class="post-detail ml-3">
+                                            <h5 id="post-name">
+                                                <%-post.user_firstname + " " + post.user_lastname%>
+                                            </h5>
+                                            <span id="post-time">7:00</span>
+                                        </div>
+                                    </div>
+                                    <p class="card-text">
+                                        <%-post.post_content%>
+                                    </p>
+                                    <% if(!post.post_image) {%>
+                                        <% } else {%>
+                                            <img src="img/<%=post.post_image%>" width="100%" height="300px" />
+                                            <% } %>
+                                </div>
+                                <div class="card-footer text-center mt-4">
+                                    <div class="post-action">
+                                        <div class="col-sm-12 text-center d-flex m-0 p-1">
+                                            <a href="" class="col-sm-6 text-muted" data-toggle="tooltip" data-placement="top" title="Chưa phát triển">
+                                                <span>Thích</span>
+                                            </a>
+                                            <a class="col-sm-6 show-cmt text-muted" data-toggle="collapse" href="#show-cmt<%=index%>" role="button" aria-expanded="false" aria-controls="collapseExample">
+                                                <span class="text-mutedcount-comment"></span><span>Bình luận</span>
+                                            </a>
+                                        </div>
+                                        <div class="collapse mt-3 pt-3 border-top" id="show-cmt<%=index%>">
+                                            <div class="media text-left comment">
+                                                <img class="mr-3 img-user-cmt" src="img/avt.png" alt="Generic placeholder image">
+                                                <div class="media-body">
+                                                    <h6 class="mt-0">Ten user</h6>
+                                                    <p>Noi dung cmt </p>
+                                                    <span>Time</span>
+                                                </div>
+                                            </div>
+                                            <div class="form-group mt-3">
+                                                <form class="form-inline " action="">
+                                                    <img src="<%=user.user_avatar%>" class="rounded-pill ml-1" width=40px height=40px>
+                                                    <input placeholder="Nhập bình luận" type="text" class="form-control ml-3 col-sm-10 rounded-pill border border-dark">
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <% })%>
                     </div>
+
                 </div>
 
         </main>
@@ -114,42 +201,55 @@
             $('#cover-bg-selected').removeClass('d-none').addClass('d-block');
         })
 
+        // let setHeight = () => {
+        //     let btnHeight = $('.btn-update').position(),
+        //         newH = $('.per-profile');
+        //     newH.height(btnHeight.top + newH.height() - 700)
+        // }
+        // setHeight();
 
 
-        for (let i = 20; i > 0; i--) {
-            $('.post-profile').append(
-                '<div class="card col-sm-12 col-lg-12 mx-auto mt-3 shadow post-frame">' +
-                ' <div class="card-body m-0 p-0">' +
-                '  <div class="card-title d-flex">' +
-                '<img id="post-avt" src="/img/avt.png" alt="" width="50px" height="50px">' +
-                '<div class="post-detail ml-3">' +
-                '  <h5 id="post-name">Nguyễn Văn A</h5>' +
-                ' <span id="post-time">7:00</span>' +
-                '  </div>' +
-                '      </div>' +
-                '  <p class="card-text">Nội dung bài đăng hehehe</p>' +
-                ' <img src="/img/background-login.jpg" width="100%" height="300px" />' +
-                '</div>' +
-                '    <div class="card-footer text-center">' +
-                ' <div class="post-action">' +
-                '  <a data-toggle="collapse" href="#show-cmt' + i + '" role="button" aria-expanded="false" aria-controls="collapseExample">' +
-                '<span class="text-dark">Bình luận</span>' +
-                '       </a>' +
-                '<div class="collapse" id="show-cmt' + i + '">' +
-                '<div class="media text-left comment">' +
-                ' <img class="mr-3 img-user-cmt" src="img/avt.png" alt="Generic placeholder image">' +
-                '  <div class="media-body">' +
-                ' <h6 class="mt-0">Ten user</h6>' +
-                ' <p >Noi dung cmt </p>' +
-                '<span>Time</span>' +
-                ' </div>' +
-                '</div>' +
-                '</div>' +
-                '  </div>' +
-                '   </div>' +
-                '  </div>'
-            )
-        }
+
+        // for (let i = 20; i > 0; i--) {
+        //     $('.post-profile').append(
+        //               <div class="card col-sm-6 col-lg-6 mx-auto mt-4 shadow post-frame">
+        //             <div class="card-body mt-3 p-0">
+        //                 <div class="card-title d-flex">
+        //                     <img id="post-avt" src="/img/avt.png" alt="" width="50px" height="50px">
+        //                     <div class="post-detail ml-3">
+        //                         <h5 id="post-name">Nguyễn Văn A</h5>
+        //                         <span id="post-time">7:00</span>
+        //                     </div>
+        //                 </div>
+        //                 <p class="card-text">Nội dung bài đăng hehehe</p>
+        //                 <img src="/img/background-login.jpg" width="100%" height="300px" />
+        //             </div>
+        //             <div class="card-footer text-center">
+        //                 <div class="post-action">
+        //                     <a data-toggle="collapse" href="#show-cmt" role="button" aria-expanded="false" aria-controls="collapseExample">
+        //                         <span>Bình luận</span>
+        //                     </a>
+        //                     <div class="collapse mt-3 pt-3 border-top" id="show-cmt">
+        //                         <div class="media text-left comment">
+        //                             <img class="mr-3 img-user-cmt" src="img/avt.png" alt="Generic placeholder image">
+        //                             <div class="media-body">
+        //                                 <h6 class="mt-0">Ten user</h6>
+        //                                 <p>Noi dung cmt </p>
+        //                                 <span>Time</span>
+        //                             </div>
+        //                         </div>
+        //                         <div class="form-group mt-3">
+        //                             <form class="form-inline " action="">
+        //                                 <img src="<%=user.user_avatar%>" class="rounded-pill ml-1" width=40px height=40px>
+        //                                 <input placeholder="Nhập bình luận" type="text" class="form-control ml-3 col-sm-10 rounded-pill border border-dark">
+        //                             </form>
+        //                         </div>
+        //                     </div>
+        //                 </div>
+        //             </div>
+        //         </div>
+        //     )
+        // }
     })
 </script>
 

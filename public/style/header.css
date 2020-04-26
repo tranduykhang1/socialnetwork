@@ -4,6 +4,10 @@
     text-decoration: none;
 }
 
+input:focus {
+    box-shadow: none !important;
+}
+
 a:hover {
     text-decoration: none;
 }
@@ -34,7 +38,7 @@ html {
 .navbar {
     height: 50px;
     width: 100%;
-    background: #6BAFFF;
+    background: #FF8443;
 }
 
 #img-avt {
@@ -44,10 +48,16 @@ html {
 }
 
 .fas {
-    font-size: 20px;
+    font-size: 25px;
     color: rgb(63, 63, 63);
     transition: .3s;
     cursor: pointer;
+    padding: auto;
+}
+
+.fa-search,
+.fa-arrow-right {
+    font-size: 20px;
 }
 
 .fas:hover {
@@ -62,6 +72,32 @@ html {
     outline: none;
     border: none;
     box-shadow: none;
+}
+
+.nav li a {
+    position: relative;
+    margin-top: -3px;
+}
+
+.nav {
+    margin: auto;
+    margin-left: 32%;
+}
+
+.nav li a::before {
+    content: "";
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 100%;
+    border-bottom: 2px solid black;
+    transition: .3s;
+    transform-origin: 1 1;
+    transform: scaleX(0);
+}
+
+.nav li a:hover::before {
+    transform: scaleX(1);
 }
 
 .active {

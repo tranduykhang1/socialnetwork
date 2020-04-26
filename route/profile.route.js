@@ -1,7 +1,8 @@
 const express = require('express'),
     db = require('../DB/db'),
     route = express.Router(),
-    multer = require('multer');
+    multer = require('multer'),
+    isLogged = require('../models/auth/isLogged');
 
 
 var storage = multer.diskStorage({
@@ -17,39 +18,10 @@ var upload = multer({ storage: storage })
 
 
 const model = require('../models/profile.model');
-route.get('/', model.profile);
-route.post('/uploadBg', upload.single('backgroundProfile'), (req, res) => {
-    const image = req.file.originalname;
-    const userID = req.session.user.user_id
-    db.query('update user set user_background = "img/' + image + '" where user_id = "' + userID + '"', (err, rs) => {
-        if (err) {
-            throw err
-        }
-        res.redirect('/profile');
-    })
+route.get('/', isLogged, model.profile);
 
-})
-route.post('/uploadBg', upload.single('backgroundProfile'), (req, res) => {
-    const image = req.file.originalname;
-    const userID = req.session.user.user_id
-    db.query('update user set user_background = "img/' + image + '" where user_id = "' + userID + '"', (err, rs) => {
-        if (err) {
-            throw err
-        }
-        res.redirect('/profile');
-    })
+route.post('/uploadBg', upload.single('backgroundProfile'), model.uploadBg);
+route.post('/uploadAvatar', upload.single('avatarProfile'), model.uploadAvatar);
+route.post('/updateProfile', model.updateProfile);
 
-})
-
-route.post('/uploadAvatar', upload.single('avatarProfile'), (req, res) => {
-    const image = req.file.originalname,
-        userID = req.session.user.user_id;
-    db.query('update user set user_avatar = "img/' + image + '" where user_id = "' + userID + '"', (err, rs) => {
-        if (err) {
-            throw err
-        }
-        res.redirect('/profile');
-    })
-
-})
 module.exports = route;

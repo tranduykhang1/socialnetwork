@@ -1,13 +1,15 @@
-const db = require('../DB/db')
+const userModel = require('./userAPI/user.model'),
+    getStatus = require('./statusAPI/getStatus.model'),
+    getComment = require('../models/statusAPI/Comment.mode');
 
 module.exports.home = (req, res) => {
-    const user = req.session.user;
-    if (!req.session.loggedin) {
-        res.redirect('/');
-        return;
-    } else {
-        db.query('select * from user where user_username=?', [user.user_username], (err, rs) => {
-            res.render('home.ejs', { user: rs[0] });
+    let userID = req.user.user_id;
+    let message = req.flash('postSuccess')
+    userModel.getUserById(userID, (err, user) => {
+        getStatus.getAllPost((err, post) => {
+            getComment.getComment((err, comment) => {
+                res.render('home', { user: user, post: post, comment: comment, postSuccess: message });
+            })
         })
-    }
+    })
 }

@@ -1,9 +1,11 @@
 const db = require('../DB/db'),
-    express = require('express'),
-    flash = require('connect-flash'),
-    app = express()
-
+    userModel = require('./userAPI/user.model');
 
 module.exports.community = (req, res) => {
-    res.render('community');
+    let userID = req.user.user_id;
+    userModel.getAllUsers((err, users) => {
+        userModel.getUserById(userID, (err, user) => {
+            res.render('community', { user: user, users: users });
+        })
+    })
 }

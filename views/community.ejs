@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="/event/jquery-3.4.1.min.js"></script>
     <link rel="stylesheet" href='/style/community.css' />
+
     <title>Community</title>
 </head>
 
@@ -14,39 +15,40 @@
 
         <div class="container main mt-5 pt-5">
             <div class="row">
-                <div class="col-sm-8 col-lg-8 mx-auto p-3" id="user-block">
-                    <div class="media p-3">
-                        <a href="" class="d-flex">
-                            <img id="user-avt" src="/img/avt.png" class="mr-3" alt="..." width="50px" height="50px">
-                            <h6 class="p-2">Tên người dùng</h6>
-                        </a>
-                    </div>
+                <div class="col-sm-12 m-4 mx-auto">
+                    <h3 class="text-center">Mọi người</h3>
                 </div>
+                <%if(!users.length){%>
+                    <p class="text-center text-danger col-sm-12">Không tìm thấy kết quả mong muốn</p>
+                    <% }%>
+                        <% users.forEach((u,index) => { %>
+                            <div class="col-sm-8 col-lg-8 mx-auto p-3" id="user-block">
+                                <div class="media p-3">
+                                    <a href="" class="d-flex" data-toggle="popover" data-trigger="hover" data-placement="left" data-html="true" data-content="<img id='bg-popover' class='img-thumbnail mx-auto d-block' src='<%=u.user_background%>'/> <img id='avt-popover' width=80px height=80px class='mx-auto d-block' src='<%=u.user_avatar%>'/><br/> <h6 class='username-popover'><%=u.user_firstname + ' ' +u.user_lastname%> </h6>">
+                            <img id="user-avt" src="<%= u.user_avatar%>" class="mr-3" alt="Avatar Err" width="50px" height="50px"/>
+                    <h6 class="p-2">
+                        <%=u.user_firstname + " " + u.user_lastname %>
+                    </h6>
+                    </a>
+                                    <button id="addFriend<%=index%>" class="btn btn-outline-danger ml-auto">Kết bạn</button>
+                                </div>
 
+                            </div>
+                            <% }) %>
             </div>
         </div>
+
+        <script>
+            $(document).ready(function() {
+                $(".nav li").removeClass('active');
+                $('#users').addClass('active');
+
+                $('[data-toggle="popover"]').popover();
+            })
+            $('.form-inline').removeClass('d-none');
+        </script>
+
 </body>
-
-<script>
-    $(document).ready(function() {
-        $(".nav li").removeClass('active');
-        $('#users').addClass('active');
-
-        for (let i = 0; i < 20; i++) {
-            $('.row').append(
-                '  <div class="col-sm-8 col-lg-8 mx-auto p-3" id="user-block">' +
-                ' <div class="media p-3">' +
-                '<a href="" class="d-flex">' +
-                '       <img id="user-avt" src="/img/avt.png" class="mr-3" alt="..." width="50px" height="50px">' +
-                '  <h6 class="p-2">Tên người dùng</h6>' +
-                '   </a>' +
-                '   </div>' +
-                '  </div>'
-            )
-        }
-
-    })
-</script>
 
 
 </html>

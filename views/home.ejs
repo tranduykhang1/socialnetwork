@@ -5,89 +5,220 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel='stylesheet' href="/style/home.css" />
-    <script src="/event/jquery-3.4.1.min.js"></script>
     <title>DiKa</title>
 </head>
 
 <body>
     <%- include('./layout/header.ejs'); %>
 
-        <div class="container main">
-            <div class="row d-block">
-                <div class="col-sm-6 col-lg-6 mx-auto mt-4 p-4" id="post-status">
-                    <img class="ml-3" width=50px height=50px src="<%=user.user_avatar%>" alt="" style="border-radius: 50px;">
-                    <button type="button" id="btn-model-post" class="btn btn-outline-dark col-sm-10 " data-toggle="modal" data-target="#statusmodel">
+        <% if (postSuccess.length) { %>
+            <p class="text-center text-success" id="postSuccess">
+                <%-postSuccess%>
+            </p>
+            <% } %>
+                <div class="container main">
+                    <div class="row d-block">
+                        <div class="col-sm-6 col-lg-6 mx-auto mt-2 p-4 border shadow-sm" id="post-status">
+                            <img class="ml-3" width=40px height=40px src="<%=user.user_avatar%>" alt="" style="border-radius: 50px;">
+                            <button type="button" id="btn-model-post" class="btn btn-outline-dark col-sm-10 " data-toggle="modal" data-target="#statusmodel">
                           Chào <%- user.user_lastname %> , Bạn đang nghĩ gì thế?
                           </button>
-                </div>
+                        </div>
 
-                <div class="modal fade" id="statusmodel" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                    <div class="modal-dialog" role="document">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="exampleModalLabel">Tạo bài đăng mới</h5>
-                                </button>
-                            </div>
-                            <div class="modal-body">
-                                <div class="form-group">
-                                    <form action="">
-                                        <textarea class="form-control col-sm-12 " id="create-post-input" placeholder="Nội dung bài đăng" autocomplete="off" />
-                                        </textarea>
-                                        <a href="" title="Ảnh"><i class="fas fa-images mt-2"></i></a>
+                        <div class="modal fade" id="statusmodel" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLabel">Tạo bài đăng mới</h5>
+                                        </button>
+                                    </div>
+                                    <form action="/postStatus" method="POST" enctype="multipart/form-data">
+                                        <div class="modal-body">
+                                            <div class="form-group">
+                                                <textarea class="form-control col-sm-12 " name="postContent" id="create-post-input" placeholder="Nội dung bài đăng" autocomplete="off" />
+                                                </textarea>
+                                                <label for="post-img" title="Chọn hình"><i class="fas fa-images mt-2"></i></label>
+                                                <input type="file" name="postImg" class="d-none" id="post-img" />
+                                                <span class="text-muted ml-2 imgName"></span>
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="submit" class="btn btn-primary col-sm-12">Đăng</button>
+                                        </div>
                                     </form>
                                 </div>
                             </div>
-                            <div class="modal-footer">
-                                <button class="btn btn-primary col-sm-12">Đăng</button>
-                            </div>
                         </div>
+
+
+                        <% post.forEach((post) =>{%>
+                            <div class="card col-sm-6 col-lg-6 mx-auto mt-4 shadow-sm post-frame">
+                                <div class="card-body mt-3 p-0">
+                                    <div class="card-title d-flex">
+                                        <img id="post-avt" src="<%=post.user_avatar%>" alt="" width="50px" height="50px">
+                                        <div class="post-detail ml-3">
+                                            <h5 id="post-name">
+                                                <%- post.user_firstname + " " + post.user_lastname %>
+                                            </h5>
+
+                                            <span class="post-time" id="post<%=post.post_id%>"><%-post.post_day %></span>
+                                            <script>
+                                                $(document).ready(function() {
+                                                    let time = $('#post<%=post.post_id%>')
+                                                    time.text(moment(time.text()).fromNow())
+                                                })
+                                            </script>
+                                        </div>
+                                    </div>
+                                    <p class="card-text">
+                                        <%- post.post_content %>
+                                    </p>
+                                    <% if(!post.post_image) {%>
+
+                                        <% } else {%>
+                                            <img src="img/<%=post.post_image%>" width="100%" height="300px" />
+                                            <% } %>
+
+                                </div>
+                                <div class="card-footer text-center mt-4">
+                                    <div class="post-action">
+                                        <div class="col-sm-12 text-center d-flex">
+                                            <a href="" class="col-sm-6 text-muted" data-toggle="tooltip" data-placement="top" title="Chưa phát triển">
+                                                <span>Thích</span>
+                                            </a>
+                                            <a class="col-sm-6 show-cmt<%=post.post_id%>" data-toggle="collapse" href="#show-cmt<%=post.post_id%>" role="button" aria-expanded="false" aria-controls="collapseExample">
+                                                <span class="text-muted m-1 count-comment<%=post.post_id%>"></span><span>Bình luận</span> 
+                                            </a>
+                                        </div>
+                                        <div class="collapse mt-3 pt-3 border-top" id="show-cmt<%=post.post_id%>">
+                                            <% comment.forEach(cmt => { %>
+                                                <div id="comment-main<%=post.post_id%>">
+                                                    <% if(cmt.comment_postID == post.post_id) {%>
+                                                        <div class="media text-left comment">
+                                                            <img class="mr-3 img-user-cmt" src="<%=cmt.user_avatar%>">
+                                                            <div class="media-body">
+                                                                <h6 class="mt-0">
+                                                                    <%- cmt.user_firstname + " " + cmt.user_lastname %>
+                                                                </h6>
+                                                                <p>
+                                                                    <%-cmt.comment_content%>
+                                                                </p>
+                                                                <span id="time<%=cmt.comment_id%>" class="text-muted"><%-cmt.comment_day%></span>
+                                                                <script>
+                                                                    $(document).ready(function() {
+                                                                        let time = $('#time<%=cmt.comment_id%>')
+                                                                        time.text(moment(time.text()).fromNow())
+                                                                    })
+                                                                </script>
+                                                            </div>
+                                                        </div>
+                                                        <% } %>
+                                                </div>
+                                                <% }); %>
+                                                    <div class="form-group mt-3">
+                                                        <form class="form-inline <%-post.post_id%>">
+                                                            <input id="<%post.post_id%>" type="hidden" value="<%-post.post_id%>">
+                                                            <input class="postID" type="hidden" value="<%-post.post_id%>">
+                                                            <img src="<%=user.user_avatar%>" class="rounded-pill ml-1" width=50px height=50px>
+                                                            <input placeholder="Nhập bình luận" id="input<%-post.post_id%>" type="text" class="form-control ml-3 col-sm-10 rounded-pill border comment-input" autocomplete="off">
+                                                        </form>
+                                                    </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <script>
+                                $(document).ready(function() {
+                                    let id = "<%-post.post_id%>";
+                                    //count comment ajax
+                                    let loadCount = () => {
+                                        $.ajax({
+                                            url: '/getCountComment',
+                                            method: 'GET',
+                                            success: result => {
+                                                result = JSON.parse(result);
+                                                result.forEach(rs => {
+                                                    if (rs.comment_postID == '<%-post.post_id%>') {
+                                                        $('.count-comment<%=post.post_id%>').text(rs.countComment)
+                                                    }
+                                                })
+                                            }
+                                        })
+                                    }
+                                    loadCount();
+                                    //post comment ajax
+                                    $("." + id).submit(e => {
+                                        e.preventDefault();
+                                        $.ajax({
+                                            url: "/postComment",
+                                            method: "POST",
+                                            data: {
+                                                idUser: '<%=user.user_id%>',
+                                                idPost: id,
+                                                content: $('#input' + id).val()
+                                            },
+                                        })
+                                        $('#comment-main' + id).prepend(
+                                            ' <div class="media text-left comment">' +
+                                            ' <img class="mr-3 img-user-cmt" src="<%=user.user_avatar%>">' +
+                                            '  <div class="media-body">' +
+                                            ' <h6 class="mt-0 ">' +
+                                            '  <%- user.user_firstname + " " + user.user_lastname %>' +
+                                            ' </h6>' +
+                                            '  <p>' +
+                                            '   ' + $('#input' + id).val() + '' +
+                                            '  </p>' +
+                                            '<span id="time-comment" class="text-primary">"' + new Date() + '"</span>' +
+                                            '</div>' +
+                                            '  </div>'
+                                        )
+                                        $(document).ready(function() {
+                                            let time = $("#time-comment")
+                                            time.text(moment(time.text()).fromNow())
+                                        })
+                                        $('#input' + id).val("");
+                                        loadCount();
+                                    })
+                                })
+                            </script>
+
+                            <%});%>
+
                     </div>
                 </div>
 
 
-            </div>
-        </div>
 </body>
 <script>
-    $(document).ready(function() {
+    $(function() {
         $('#btn-model-post').click(() => {
             $('#create-post-input').text('')
         })
 
-        for (let i = 20; i > 0; i--) {
-            $('.row').append(
-                '<div class="card col-sm-6 col-lg-6 mx-auto mt-4 shadow post-frame">' +
-                ' <div class="card-body mt-3 p-0">' +
-                '  <div class="card-title d-flex">' +
-                '<img id="post-avt" src="/img/avt.png" alt="" width="50px" height="50px">' +
-                '<div class="post-detail ml-3">' +
-                '  <h5 id="post-name">Nguyễn Văn A</h5>' +
-                ' <span id="post-time">7:00</span>' +
-                '  </div>' +
-                '      </div>' +
-                '  <p class="card-text">Nội dung bài đăng hehehe</p>' +
-                ' <img src="/img/background-login.jpg" width="100%" height="300px" />' +
-                '</div>' +
-                '    <div class="card-footer text-center">' +
-                ' <div class="post-action">' +
-                '  <a data-toggle="collapse" href="#show-cmt' + i + '" role="button" aria-expanded="false" aria-controls="collapseExample">' +
-                '<span>Bình luận</span>' +
-                '       </a>' +
-                '<div class="collapse" id="show-cmt' + i + '">' +
-                '<div class="media text-left comment">' +
-                ' <img class="mr-3 img-user-cmt" src="img/avt.png" alt="Generic placeholder image">' +
-                '  <div class="media-body">' +
-                ' <h6 class="mt-0">Ten user</h6>' +
-                ' <p >Noi dung cmt </p>' +
-                '<span>Time</span>' +
-                ' </div>' +
-                '</div>' +
-                '</div>' +
-                '  </div>' +
-                '   </div>' +
-                '  </div>'
-            )
-        }
+        $('#post-img').change(() => {
+            let valueImg = $('#post-img').val(),
+                imgSrc = valueImg.split('\\'),
+                fileName = imgSrc[imgSrc.length - 1];
+            $('.imgName').text(fileName);
+        })
+
+        setTimeout(() => {
+            $('#postSuccess').animate({
+                height: "hide"
+            })
+        }, 3000)
+        $('[data-toggle="tooltip"]').tooltip()
+
+        // post comment
+
+
+
+
+
+
+
     })
 </script>
 

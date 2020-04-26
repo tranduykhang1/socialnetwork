@@ -1,12 +1,14 @@
-const express = require('express');
-const route = express.Router();
-const flash = require('connect-flash');
-const app = express();
+const express = require('express'),
+    route = express.Router(),
+    flash = require('connect-flash'),
+    app = express();
 app.use(flash());
 
-const model = require('../models/message.model');
+const model = require('../models/message.model'),
+    isLoggedd = require('../models/auth/isLogged');
 
 
-route.get('/', model.message);
+
+route.get('/', isLoggedd, model.message);
 
 module.exports = route;

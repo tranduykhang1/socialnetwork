@@ -4,6 +4,14 @@
     text-decoration: none;
 }
 
+.form-group>input {
+    margin-bottom: 20px !important;
+}
+
+input:focus {
+    box-shadow: none !important;
+}
+
 .profile {
     margin-top: 50px;
 }
@@ -12,12 +20,18 @@
     height: 280px;
     position: relative;
     z-index: 1;
+    border-radius: 4px;
+}
+
+#cover-bg {
+    border-radius: 0 0 4px 4px;
+    box-shadow: 0 4px 5px 0 rgb(194, 194, 194);
 }
 
 #avt {
+    border: 3px solid rgb(255, 255, 255);
     z-index: -1;
     margin-top: -60px;
-    border-radius: 50%;
 }
 
 .d-flex {
@@ -26,9 +40,19 @@
 }
 
 .per-profile {
-    height: 350px;
+    height: 350px !important;
+    word-wrap: break-word;
     border-radius: 10px;
     background-color: white;
+}
+
+.btn-update {
+    position: absolute !important;
+    bottom: 0 !important;
+    left: 0;
+    margin: 10px;
+    margin-top: 20px;
+    width: 93% !important;
 }
 
 .per-profile ul li {

@@ -9,6 +9,12 @@ body {
     width: 100%;
 }
 
+body {
+    background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('/img/login-page.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
 .form-control:focus {
     box-shadow: none;
     border: 1px solid rgb(13, 29, 253);
@@ -24,7 +30,7 @@ body {
 }
 
 .header {
-    background-color: rgb(0, 204, 255);
+    background-color: #FF8443;
     height: 50px;
 }
 
@@ -44,4 +50,9 @@ body {
 .toggle {
     cursor: pointer;
     color: green;
+}
+
+.gender>select:focus {
+    box-shadow: none !important;
+    border: 1px solid rgb(13, 29, 253);
 }

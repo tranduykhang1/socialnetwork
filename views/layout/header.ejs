@@ -6,8 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://kit.fontawesome.com/32b2689684.js"></script>
     <link rel="stylesheet" href="/bootstrap/css/bootstrap.min.css" />
-    <script src="/bootstrap/js/jquery.min.js"></script>
-    <script src="/bootstrap/js/bootstrap.min.js"></script>
+
     <script src="/event/jquery-3.4.1.min.js"></script>
     <link rel="stylesheet" href="/style/header.css" />
 
@@ -19,12 +18,11 @@
         <nav class="navbar navbar-expand-lg navbar-light bg-default">
             <a class="navbar-brand" href="/profile">
                 <img id="img-avt" src="<%=user.user_avatar %>" />
+                <small class=""><%-user.user_firstname + " " + user.user_lastname%></small>
             </a>
-            <a class="nav-brand text-dark" href="/login">
-                Đăng xuất
-            </a>
+            <i class="fas fa-sort-down pb-1" data-toggle="popover" data-placement="bottom"></i>
 
-            <ul class="nav justify-content-center m-auto">
+            <ul class="nav justify-content-center">
                 <li class="active nav-item" title="Trang chủ">
                     <a class="nav-link" href="/home"><i class="fas fa-house-user"></i></a>
                 </li>
@@ -35,11 +33,11 @@
                     <a class="nav-link" href="message"><i class="fas fa-comments"></i></a>
                 </li>
                 <li class="nav-item" id="profile" title="Thông tin">
-                    <a class="nav-link" href="profile"><i class="fas fa-user"></i></a>
+                    <a class="nav-link" href="/profile"><i class="fas fa-user"></i></a>
                 </li>
             </ul>
-            <form action="/resgister" medthod="GET" class="form-inline my-2 my-lg-0">
-                <input id="input-search" class="form-control mr-sm-2" type="text" placeholder="Tìm kiếm">
+            <form class="form-inline my-2 my-lg-0" id="search-form" action="/search" method="get">
+                <input name="searchUser" id="input-search" class="form-control mr-sm-2" type="text" placeholder="Tìm kiếm người dùng...">
                 <i class="fas fa-search"></i>
                 <button class="btn btn-search" title="Tìm kiếm" type="submit"><i class="fas fa-arrow-right"></i></button>
             </form>
@@ -47,11 +45,28 @@
     </div>
 
 
+    <script src="jquery.min.js" type="text/javascript"></script>
+    <script src="/bootstrap/js/jquery.min.js"></script>
+    <script src="/bootstrap/js/popper.min.js"></script>
+    <script src="/bootstrap/js/bootstrap.min.js"></script>
+    <script src="/bootstrap/js/moment.min.js"></script>
+
 </body>
 
 
 <script>
     $(document).ready(function() {
+        $('.fa-sort-down').popover({
+            html: true,
+            content: '<ul class="list-group">' +
+                '<li class="list-group-item border-0 p-1"><a class="nav-brand text-dark" href="/login">' +
+                ' Đăng xuất' +
+                '</a> </li>' +
+                ' <li class="list-group-item border-0 p-1"> <a class="nav-brand text-dark" href="#">' +
+                '  Đổi mật khẩu' +
+                '   </a> </li>' +
+                '</ul>'
+        })
         $('.btn-search').hide();
         $('#input-search').click((e) => {
             e.stopPropagation();
@@ -71,6 +86,9 @@
                 width: 'hide'
             })
         });
+
+
+
     })
 </script>
 

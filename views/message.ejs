@@ -21,14 +21,10 @@
                         </p>
                     </div>
                     <div class="list-group mt-2">
-                        <a href="#" class="list-group-item list-group-item-action">
-                            <img id="avt-user-list" src="img/avt.png" alt="">
-                            <span class="ml-2">Tên user</span>
-                        </a>
-                        <a href="#" class="list-group-item list-group-item-action"> <img id="avt-user-list" src="img/avt.png" alt="">
-                            <span class="ml-2">Tên user</span></a>
-                        <a href="#" class="list-group-item list-group-item-action"> <img id="avt-user-list" src="img/avt.png" alt="">
-                            <span class="ml-2">Tên user</span></a>
+                        <% users.forEach(users => { %>
+                            <a href="#" class="list-group-item list-group-item-action d-flex align-items-center"> <img id="avt-user-list" src="<%=users.user_avatar%>" alt="">
+                            <h6 class="ml-2"><%-users.user_firstname + " " + users.user_lastname%></h6></a>
+                            <% }) %>
                     </div>
 
                 </div>
@@ -101,12 +97,6 @@
                 '  <p>Day la noi dung tin nhan den </p>' +
                 '<span>7:00</span>' +
                 '  </div>'
-            )
-            $('.list-group').append(
-                '   <a href="#" class="list-group-item list-group-item-action">' +
-                '    <img id="avt-user-list" src="img/avt.png" alt="">' +
-                '    <span class="ml-2">Tên user</span>' +
-                ' </a>'
             )
         }
 

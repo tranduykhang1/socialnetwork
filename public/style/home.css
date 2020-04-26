@@ -5,7 +5,7 @@
 }
 
 .main {
-    margin-top: 80px;
+    margin-top: 100px;
 }
 
 #post-status {
@@ -50,7 +50,8 @@
     padding: 0;
 }
 
-#post-time {
+.post-time {
+    width: 200px;
     position: absolute;
     font-size: 13px;
     top: 25px;
@@ -80,8 +81,8 @@ span {
 
 .img-user-cmt {
     border-radius: 50px;
-    width: 50px;
-    height: 50px;
+    width: 40px;
+    height: 40px;
 }
 
 .media-body p {
@@ -95,4 +96,13 @@ span {
 
 .comment {
     border-bottom: 1px solid rgb(231, 231, 231);
+}
+
+#postSuccess {
+    padding-top: 60px !important;
+    position: absolute !important;
+    top: 0;
+    left: 35%;
+    width: 460px;
+    margin-bottom: 20px !important;
 }
