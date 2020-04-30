@@ -4,11 +4,11 @@ const express = require('express'),
     app = express();
 app.use(flash());
 
-const model = require('../models/message.model'),
-    isLoggedd = require('../models/auth/isLogged');
+const messController = require('../controller/message.controller'),
+    isLogged = require('../models/auth/isLogged');
 
 
 
-route.get('/', isLoggedd, model.message);
+route.get('/', isLogged, messController.message);
 
 module.exports = route;

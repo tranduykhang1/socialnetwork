@@ -2,21 +2,19 @@ const express = require('express'),
     route = express.Router(),
     flash = require('connect-flash'),
     app = express(),
-    passport = require('passport'),
-    LocalStrategy = require('passport-local').Strategy,
-    db = require('../DB/db'),
-    bcrypt = require('bcrypt');
+    passport = require('passport');
 app.use(flash());
 
 
-const model = require('../models/auth/auth.model');
+const model = require('../models/auth/register.model'),
+    authController = require('../controller/auth/auth.controller')
 passportModel = require('../models/auth/passport');
 passportModel(passport)
 
-route.get('/', model.login);
-route.get('/resgister', model.resgister);
-route.get('/login', model.logout);
-route.post('/resgister', model.validResgister);
+route.get('/', authController.login);
+route.get('/register', authController.register);
+route.get('/login', authController.logout);
+route.post('/register', model.validRegister);
 
 
 

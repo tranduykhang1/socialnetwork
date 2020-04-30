@@ -1,5 +1,5 @@
 const route = express.Router();
-const searchModel = require('../../models/searchUser/searchUser.model');
+const searchController = require('../../controller/searchUser/searchUser.controller');
 
-route.get('/search', searchModel.search)
+route.get('/search', searchController.search)
 module.exports = route;

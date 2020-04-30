@@ -1,4 +1,4 @@
-const userModel = require('./userAPI/user.model');
+const userModel = require('../models/userAPI/user.model');
 
 
 module.exports.message = async(req, res) => {

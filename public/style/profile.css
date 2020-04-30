@@ -106,7 +106,7 @@ input:focus {
     background-color: rgb(163, 163, 163);
     cursor: pointer;
     padding: 3px 5px;
-    opacity: .8;
+    opacity: .6;
     transition: .4s;
 }
 
@@ -132,4 +132,16 @@ input:focus {
 
 .comment {
     border-bottom: 1px solid rgb(231, 231, 231);
+}
+
+.fa-trash-alt {
+    font-size: 15px !important;
+}
+
+.btn {
+    border-radius: 0 !important;
+}
+
+i {
+    cursor: pointer;
 }

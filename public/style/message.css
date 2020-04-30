@@ -67,16 +67,17 @@
     word-wrap: break-word;
     max-width: 300px;
     padding: 5px;
-    border-radius: 5px;
 }
 
 #my-message {
     background: #007bff;
     color: white;
+    border-radius: 15px 1px 15px 15px;
 }
 
 #friend-message {
     background: rgb(231, 231, 231);
+    border-radius: 1px 15px 15px 15px;
 }
 
 #chat-box {
@@ -110,7 +111,7 @@ input[type=text] {
     box-shadow: none;
 }
 
-#infor-user {
+#info-user {
     border-left: .5px solid rgb(122, 122, 122);
 }
 

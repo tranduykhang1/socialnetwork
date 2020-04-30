@@ -1,8 +1,8 @@
 const express = require('express');
 const route = express.Router();
 
-const model = require('../models/community.model'),
+const comController = require('../controller/community.controller'),
     isLogged = require('../models/auth/isLogged');
-route.get('/', isLogged, model.community);
+route.get('/', isLogged, comController.community);
 
 module.exports = route;

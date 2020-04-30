@@ -8,8 +8,8 @@ app.use(flash());
 
 
 
-const model = require('../models/home.model');
+const homeController = require('../controller/home.controller');
 
-route.get('/home', isLogged, model.home)
+route.get('/home', isLogged, homeController.home)
 
 module.exports = route;

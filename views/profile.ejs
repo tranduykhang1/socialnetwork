@@ -16,7 +16,7 @@
             <div class="row">
                 <div class="image-profile col-sm-10 col-lg-10 mx-auto mb-3">
                     <img class="img-fluid h-100 w-100" id="cover-bg" src="<%=user.user_background%>" alt="">
-                    <span id="change-cover-bg" data-toggle="modal" data-target="#update_cover-bg">Thay đổi ảnh bìa</span>
+                    <span id="change-cover-bg" data-toggle="modal" class="p-1" data-target="#update_cover-bg" title="Cập nhật ảnh bia">Thay đổi ảnh bìa</span>
                     <div class="avt-profile mx-auto text-center d-block">
                         <img id="avt" class='rounded-circle' src="<%=user.user_avatar%>" width="120px" height="120px" />
                         <i class="fas fa-camera" title="Cập nhật ảnh đại diện" data-toggle="modal" data-target="#update_avt"></i>
@@ -57,8 +57,8 @@
                             </div>
                             <div class="modal-body text-center">
                                 <form action='/profile/uploadAvatar' method="post" enctype="multipart/form-data">
-                                    <label id="input-img-label" for="input-avarta">Tải ảnh lên</label>
-                                    <input type="file" name="avatarProfile" class="input-img" id="input-avarta" />
+                                    <label id="input-img-label" for="input-avatar">Tải ảnh lên</label>
+                                    <input type="file" name="avatarProfile" class="input-img" id="input-avatar" />
                                     <span id="avt-selected" class="text-success d-none ml-3">Đã chọn 1 ảnh</span>
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Huỷ</button>
@@ -128,7 +128,12 @@
                     <div class="post-profile col-sm-7 col-lg-7 mx-auto ml-5 ">
 
                         <% post.forEach((post, index) =>{%>
-                            <div class="card col-sm-12 mx-auto mt-4 shadow post-frame">
+                            <div class="col-sm-12 bg-white border shadow p-3 text-center mt-3 d-none" id="alert<%=index%>">
+                                <p class="text">Bạn muốn xoá bài viết này?</p>
+                                <button class="btn btn-dark ml-auto" id="btn-cancel<%=index%>">Không</button>
+                                <button class="btn btn-danger ml-auto" id="btn-yes<%=index%>">Xoá</button>
+                            </div>
+                            <div class="card col-sm-12 mx-auto mt-4 shadow post-frame" id="post<%=index%>">
                                 <div class="card-body mt-1 p-0">
                                     <div class="card-title d-flex">
                                         <img id="post-avt" src="<%=post.user_avatar%>" alt="" width="50px" height="50px">
@@ -137,6 +142,9 @@
                                                 <%-post.user_firstname + " " + post.user_lastname%>
                                             </h5>
                                             <span id="post-time">7:00</span>
+                                        </div>
+                                        <div class="ml-auto">
+                                            <i class="fas fa-trash-alt" id="trash<%=index%>" title="Xoá bài viết"></i>
                                         </div>
                                     </div>
                                     <p class="card-text">
@@ -154,28 +162,122 @@
                                                 <span>Thích</span>
                                             </a>
                                             <a class="col-sm-6 show-cmt text-muted" data-toggle="collapse" href="#show-cmt<%=index%>" role="button" aria-expanded="false" aria-controls="collapseExample">
-                                                <span class="text-mutedcount-comment"></span><span>Bình luận</span>
+                                                <span class="text-muted m-1 count-comment<%=post.post_id%>"></span><span>Bình luận</span>
                                             </a>
                                         </div>
                                         <div class="collapse mt-3 pt-3 border-top" id="show-cmt<%=index%>">
-                                            <div class="media text-left comment">
-                                                <img class="mr-3 img-user-cmt" src="img/avt.png" alt="Generic placeholder image">
-                                                <div class="media-body">
-                                                    <h6 class="mt-0">Ten user</h6>
-                                                    <p>Noi dung cmt </p>
-                                                    <span>Time</span>
+                                            <%comment.forEach((comment, index)=> {%>
+                                                <div id="comment-main<%=post.post_id%>">
+                                                    <%if(comment.comment_postID == post.post_id) {%>
+                                                        <div class="media text-left p-2 comment">
+                                                            <img class="mr-3 img-user-cmt" src="<%=comment.user_avatar%>" alt="Generic placeholder image">
+                                                            <div class="media-body">
+                                                                <h6 class="mt-0">
+                                                                    <%-comment.user_firstname + " " + comment.user_lastname%>
+                                                                </h6>
+                                                                <p>
+                                                                    <%-comment.comment_content%>
+                                                                </p>
+                                                                <span id="<%=index%>" class="text-muted"><%-comment.comment_day%></span>
+                                                                <script>
+                                                                    $(document).ready(function() {
+                                                                        let time = $('#<%=index%>')
+                                                                        time.text(moment(time.text()).fromNow())
+                                                                    })
+                                                                </script>
+                                                            </div>
+                                                        </div>
+                                                        <%}%>
                                                 </div>
-                                            </div>
-                                            <div class="form-group mt-3">
-                                                <form class="form-inline " action="">
-                                                    <img src="<%=user.user_avatar%>" class="rounded-pill ml-1" width=40px height=40px>
-                                                    <input placeholder="Nhập bình luận" type="text" class="form-control ml-3 col-sm-10 rounded-pill border border-dark">
-                                                </form>
-                                            </div>
+                                                <%});%>
+                                                    <div class="form-group mt-3">
+                                                        <form class="form-inline <%-post.post_id%>">
+                                                            <img src="<%=user.user_avatar%>" class="rounded-pill ml-1" width=40px height=40px>
+                                                            <input id="input<%-post.post_id%>" placeholder="Nhập bình luận" type="text" class="form-control ml-3 col-sm-10 rounded-pill border border-dark">
+                                                        </form>
+                                                    </div>
+
                                         </div>
                                     </div>
                                 </div>
                             </div>
+                            <script>
+                                $(function() {
+                                    let loadCount = () => {
+                                        $.ajax({
+                                            url: '/getCountComment',
+                                            method: 'GET',
+                                            success: result => {
+                                                result = JSON.parse(result);
+                                                result.forEach(rs => {
+                                                    if (rs.comment_postID == '<%-post.post_id%>') {
+                                                        $('.count-comment<%=post.post_id%>').text(rs.countComment)
+                                                    }
+                                                })
+                                            }
+                                        })
+                                    }
+                                    loadCount()
+
+
+                                    $(".<%-post.post_id%>").submit(e => {
+                                            e.preventDefault();
+                                            $.ajax({
+                                                url: '/postComment',
+                                                method: 'POST',
+                                                data: {
+                                                    userID: '<%-user.user_id%>',
+                                                    postID: '<%-post.post_id%>',
+                                                    content: $('#input<%-post.post_id%>').val()
+                                                },
+                                            })
+                                            $("#comment-main<%=post.post_id%>").append(
+                                                '<div class="media text-left p-2 comment">' +
+                                                ' <img class="mr-3 img-user-cmt" src="<%=user.user_avatar%>" alt="Generic placeholder image">' +
+                                                ' <div class="media-body">' +
+                                                ' <h6 class="mt-0">' +
+                                                ' <%-user.user_firstname + " " + user.user_lastname%>' +
+                                                ' </h6>' +
+                                                ' <p>' +
+                                                '  ' + $("#input<%-post.post_id%>").val() + ' ' +
+                                                '   </p>' +
+                                                '<span id="time-comment" class="text-primary">"' + new Date() + '"</span>' +
+                                                ' </div>' +
+                                                ' </div>'
+                                            )
+                                            $(document).ready(function() {
+                                                let time = $("#time-comment")
+                                                time.text(moment(time.text()).fromNow())
+                                            })
+                                            loadCount();
+                                            $('#input<%-post.post_id%>').val("")
+                                        })
+                                        // trash status
+                                    let toggle = () => {
+                                        $('#post<%=index%>').animate({
+                                            opacity: 'toggle',
+                                            height: 'toggle'
+                                        }, 'fast');
+                                    }
+
+                                    $('#trash<%=index%>').click(e => {
+                                        e.preventDefault();
+                                        toggle()
+                                        $('#alert<%=index%>').removeClass('d-none')
+                                        $('#btn-cancel<%=index%>').click(() => {
+                                            toggle()
+                                            $('#alert<%=index%>').addClass('d-none')
+                                        })
+                                        $('#btn-yes<%=index%>').click(() => {
+                                            $.ajax({
+                                                url: 'trashStatus/<%=post.post_id%>',
+                                                method: 'GET',
+                                            })
+                                            $('#alert<%=index%>').hide();
+                                        })
+                                    })
+                                })
+                            </script>
 
                             <% })%>
                     </div>
@@ -194,62 +296,16 @@
             $('#avt_input').click();
         })
 
-        $('#input-avarta').on('change', (e) => {
+        $('#input-avatar').on('change', (e) => {
             $('#avt-selected').removeClass('d-none').addClass('d-block');
         })
         $('#input-cover-bg').on('change', (e) => {
             $('#cover-bg-selected').removeClass('d-none').addClass('d-block');
         })
 
-        // let setHeight = () => {
-        //     let btnHeight = $('.btn-update').position(),
-        //         newH = $('.per-profile');
-        //     newH.height(btnHeight.top + newH.height() - 700)
-        // }
-        // setHeight();
+        //---
 
 
-
-        // for (let i = 20; i > 0; i--) {
-        //     $('.post-profile').append(
-        //               <div class="card col-sm-6 col-lg-6 mx-auto mt-4 shadow post-frame">
-        //             <div class="card-body mt-3 p-0">
-        //                 <div class="card-title d-flex">
-        //                     <img id="post-avt" src="/img/avt.png" alt="" width="50px" height="50px">
-        //                     <div class="post-detail ml-3">
-        //                         <h5 id="post-name">Nguyễn Văn A</h5>
-        //                         <span id="post-time">7:00</span>
-        //                     </div>
-        //                 </div>
-        //                 <p class="card-text">Nội dung bài đăng hehehe</p>
-        //                 <img src="/img/background-login.jpg" width="100%" height="300px" />
-        //             </div>
-        //             <div class="card-footer text-center">
-        //                 <div class="post-action">
-        //                     <a data-toggle="collapse" href="#show-cmt" role="button" aria-expanded="false" aria-controls="collapseExample">
-        //                         <span>Bình luận</span>
-        //                     </a>
-        //                     <div class="collapse mt-3 pt-3 border-top" id="show-cmt">
-        //                         <div class="media text-left comment">
-        //                             <img class="mr-3 img-user-cmt" src="img/avt.png" alt="Generic placeholder image">
-        //                             <div class="media-body">
-        //                                 <h6 class="mt-0">Ten user</h6>
-        //                                 <p>Noi dung cmt </p>
-        //                                 <span>Time</span>
-        //                             </div>
-        //                         </div>
-        //                         <div class="form-group mt-3">
-        //                             <form class="form-inline " action="">
-        //                                 <img src="<%=user.user_avatar%>" class="rounded-pill ml-1" width=40px height=40px>
-        //                                 <input placeholder="Nhập bình luận" type="text" class="form-control ml-3 col-sm-10 rounded-pill border border-dark">
-        //                             </form>
-        //                         </div>
-        //                     </div>
-        //                 </div>
-        //             </div>
-        //         </div>
-        //     )
-        // }
     })
 </script>
 

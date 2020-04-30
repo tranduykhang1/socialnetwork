@@ -17,7 +17,7 @@ const loginRouter = require('./route/auth.route'),
     comment = require('./route/comment/comment.route'),
     searchUser = require('./route/searchUser/searchUser.route');
 //api
-status = require('./route/status/postStatus.route')
+status = require('./route/status/status.route')
 
 app.set('view engine', 'ejs');
 app.use(express.static(__dirname + '/public'));

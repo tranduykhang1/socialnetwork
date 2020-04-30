@@ -17,11 +17,12 @@ var upload = multer({ storage: storage })
 
 
 
-const model = require('../models/profile.model');
-route.get('/', isLogged, model.profile);
+const profileController = require('../controller/profile.controller');
+const updateUserModel = require('../models/userAPI/user.model')
+route.get('/', isLogged, profileController.profile);
 
-route.post('/uploadBg', upload.single('backgroundProfile'), model.uploadBg);
-route.post('/uploadAvatar', upload.single('avatarProfile'), model.uploadAvatar);
-route.post('/updateProfile', model.updateProfile);
+route.post('/uploadBg', upload.single('backgroundProfile'), updateUserModel.uploadBg);
+route.post('/uploadAvatar', upload.single('avatarProfile'), updateUserModel.uploadAvatar);
+route.post('/updateProfile', updateUserModel.updateProfile);
 
 module.exports = route;

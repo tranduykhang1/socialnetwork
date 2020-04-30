@@ -13,11 +13,11 @@ module.exports = (req, res) => {
         userID = req.user.user_id
 
     db.query("insert into post(post_content, post_image, post_day, post_userID) values " +
-        "('" + postContent + "','" + postImg + "','" + postDay + "','" + userID + "')", async(err) => {
+        "('" + postContent + "','" + postImg + "','" + postDay + "','" + userID + "')", (err) => {
             if (err) {
                 throw err
             } else {
-                await req.flash('postSuccess', "Đã đăng 1 bài viết mới");
+                req.flash('postSuccess', "Đã đăng 1 bài viết mới");
                 return res.redirect('/home');
             }
         })

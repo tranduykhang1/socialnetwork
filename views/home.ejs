@@ -94,7 +94,7 @@
                                             <% comment.forEach(cmt => { %>
                                                 <div id="comment-main<%=post.post_id%>">
                                                     <% if(cmt.comment_postID == post.post_id) {%>
-                                                        <div class="media text-left comment">
+                                                        <div class="media text-left comment p-1">
                                                             <img class="mr-3 img-user-cmt" src="<%=cmt.user_avatar%>">
                                                             <div class="media-body">
                                                                 <h6 class="mt-0">
@@ -117,8 +117,6 @@
                                                 <% }); %>
                                                     <div class="form-group mt-3">
                                                         <form class="form-inline <%-post.post_id%>">
-                                                            <input id="<%post.post_id%>" type="hidden" value="<%-post.post_id%>">
-                                                            <input class="postID" type="hidden" value="<%-post.post_id%>">
                                                             <img src="<%=user.user_avatar%>" class="rounded-pill ml-1" width=50px height=50px>
                                                             <input placeholder="Nhập bình luận" id="input<%-post.post_id%>" type="text" class="form-control ml-3 col-sm-10 rounded-pill border comment-input" autocomplete="off">
                                                         </form>
@@ -155,8 +153,8 @@
                                             url: "/postComment",
                                             method: "POST",
                                             data: {
-                                                idUser: '<%=user.user_id%>',
-                                                idPost: id,
+                                                userID: '<%=user.user_id%>',
+                                                postID: id,
                                                 content: $('#input' + id).val()
                                             },
                                         })

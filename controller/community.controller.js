@@ -1,5 +1,5 @@
 const db = require('../DB/db'),
-    userModel = require('./userAPI/user.model');
+    userModel = require('../models/userAPI/user.model');
 
 module.exports.community = (req, res) => {
     let userID = req.user.user_id;

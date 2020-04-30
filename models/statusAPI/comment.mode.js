@@ -7,8 +7,8 @@ module.exports.getComment = cb => {
         })
 }
 module.exports.postComment = (req, res) => {
-    let userID = req.body.idUser,
-        postID = req.body.idPost,
+    let userID = req.body.userID,
+        postID = req.body.postID,
         commentContent = req.body.content,
         commentDay = new Date();
     db.query("insert into comment(comment_userID, comment_postID, comment_content, comment_day) values" +

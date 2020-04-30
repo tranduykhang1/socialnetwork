@@ -12,6 +12,13 @@ a:hover {
     text-decoration: none;
 }
 
+span {
+    color: black;
+    font-size: 15px;
+    font-family: sans-serif;
+    padding: 0 !important;
+}
+
 body,
 html {
     background: #F6F6F6 !important;
@@ -38,7 +45,11 @@ html {
 .navbar {
     height: 50px;
     width: 100%;
-    background: #FF8443;
+    background: rgb(65, 221, 248);
+}
+
+.nav-link {
+    padding: 0 10px !important
 }
 
 #img-avt {
@@ -47,21 +58,19 @@ html {
     border-radius: 40px;
 }
 
-.fas {
-    font-size: 25px;
+.nav-link>.fas {
+    font-size: 20px;
     color: rgb(63, 63, 63);
     transition: .3s;
     cursor: pointer;
     padding: auto;
+    text-align: center;
+    display: block;
 }
 
 .fa-search,
 .fa-arrow-right {
     font-size: 20px;
-}
-
-.fas:hover {
-    color: rgb(20, 120, 138);
 }
 
 .btn-search {
@@ -77,10 +86,11 @@ html {
 .nav li a {
     position: relative;
     margin-top: -3px;
+    display: block !important;
 }
 
 .nav {
-    margin: auto;
+    margin-top: 6.5px;
     margin-left: 32%;
 }
 
@@ -103,4 +113,21 @@ html {
 .active {
     border-bottom: 2px solid black;
     color: rgb(0, 25, 253);
+}
+
+i {
+    cursor: pointer;
+}
+
+@media only screen and (max-width: 1200px) {
+    .nav {
+        margin: auto;
+    }
+}
+
+@media only screen and (max-width: 1000px) {
+    .navbar-brand,
+    #search-form {
+        display: none;
+    }
 }

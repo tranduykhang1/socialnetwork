@@ -1,5 +1,5 @@
-const userModel = require('./userAPI/user.model'),
-    getStatus = require('./statusAPI/getStatus.model'),
+const userModel = require('../models/userAPI/user.model'),
+    getStatus = require('../models/statusAPI/getStatus.model'),
     getComment = require('../models/statusAPI/Comment.mode');
 
 module.exports.home = (req, res) => {

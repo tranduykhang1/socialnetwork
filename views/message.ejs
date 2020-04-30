@@ -54,7 +54,7 @@
                         </form>
                     </div>
                 </div>
-                <div class="col-sm-3 col-md-3 side" id="infor-user">
+                <div class="col-sm-3 col-md-3 side" id="info-user">
                     <div class="text-center mt-4 d-block">
                         <img id="avt-user-active" src="img/avt.png" alt="">
                         <h5 class="p-2">Tên user</h5>
@@ -85,6 +85,17 @@
     $(document).ready(function() {
         $(".nav li").removeClass('active');
         $('#message').addClass('active');
+
+        $(window).resize(() => {
+            let width = window.innerWidth;
+            if (width <= 1000) {
+                $('#info-user').hide()
+                $('#chat-main').removeClass('col-sm-6 col-md-6').addClass('col-sm-9 col-md-9')
+            } else {
+                $('#info-user').show()
+                $('#chat-main').removeClass('col-sm-9 col-md-9').addClass('col-sm-6 col-md-6')
+            }
+        })
 
 
         for (let i = 0; i < 20; i++) {
