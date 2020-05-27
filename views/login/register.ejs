@@ -19,51 +19,48 @@
                 <p class="text-center title">DiKa</p>
             </div>
             <div class="col-sm-4 col-md-4 mx-auto mt-5 border-none">
-                <div class="card card-signin my-4 shadow">
-                    <div class="card-body">
-                        <h5 class="card-title text-center" id="title">Đăng kí</h5>
-                        <div id="form">
-                            </form>
-                            <form class='form-resgister' action="resgister" method='POST'>
-                                <div class="form-label-group d-flex">
-                                    <div class="form-label-group pt-5">
-                                        <input name="first_name" type="text" class="form-control" placeholder="Họ" required autofocus>
-                                    </div>
-                                    <div class="form-label-group pl-5 pt-5">
-                                        <input name="last_name" type="text" class="form-control" placeholder="Tên" required autofocus>
-                                    </div>
-                                </div>
-                                <div class="form-label-group pt-3">
-                                    <input name="username" type="text" class="form-control" placeholder="Tên đăng nhập" required autofocus>
-                                    <p class="text-danger">
-                                        <%-validUsername%>
-                                    </p>
-                                </div>
-                                <div class="form-label-group pt-1">
-                                    <input name='email' type="text" class="form-control" placeholder="Email" required>
-                                </div>
+                <h5 class="text-light text-center" id="title">Đăng kí</h5>
+                <div id="form">
+                    </form>
+                    <form class='form-resgister' action="register" method='POST'>
+                        <div class="form-label-group col-sm-12 d-flex mt-5 p-0">
+                            <div class="form-label-group col-sm-5 p-0">
+                                <input name="first_name" type="text" class="form-control" placeholder="Họ" required autofocus>
+                            </div>
+                            <div class="form-label-group col-sm-6 ml-auto p-0">
+                                <input name="last_name" type="text" class="form-control" placeholder="Tên" required autofocus>
+                            </div>
+                        </div>
+                        <div class="form-label-group pt-3">
+                            <input name="username" type="text" class="form-control" placeholder="Tên đăng nhập" required autofocus>
+                            <p class="text-danger">
+                                <%-validUsername%>
+                            </p>
+                        </div>
+                        <div class="form-label-group pt-1">
+                            <input name='email' type="text" class="form-control" placeholder="Email" required>
+                        </div>
 
-                                <div class="form-label-group pt-3">
-                                    <input placeholder="Sinh nhật" type="text" name="birthday" onfocus="(this.type='date')" class="form-control" required>
-                                </div>
+                        <div class="form-label-group pt-3">
+                            <input placeholder="Sinh nhật" type="text" name="birthday" onfocus="(this.type='date')" class="form-control" required>
+                        </div>
 
-                                <div class="form-label-group pt-3 gender">
-                                    <select class="custom-select" name="gender">
+                        <div class="form-label-group pt-3 gender">
+                            <select class="custom-select" name="gender">
                                         <option value="">--Giới tính--</option>
                                         <option name="nam" >Nam</option>
                                         <option name="nữ">Nữ</option>
                                         <option name="khác" >Khác</option>
                                       </select>
-                                </div>
-                                <div class="form-label-group pt-3">
-                                    <input name="password" type="password" class="form-control" placeholder="Mật khẩu" required>
-                                </div>
-                                <button class="btn btn-lg btn-outline-success btn-block text-uppercase mt-3 mb-2 " type="submit">Đăng kí</button>
-                                <p class='text-center toggle mt-5 mb-0'><a href="/">Đăng nhập</a></p>
-                            </form>
                         </div>
-                    </div>
+                        <div class="form-label-group pt-3">
+                            <input name="password" type="password" class="form-control" placeholder="Mật khẩu" required>
+                        </div>
+                        <button class="btn btn-success btn-block text-uppercase mt-3 mb-2 " type="submit">Đăng kí</button>
+                        <p class='text-center toggle mt-5 mb-0'><a class="text-light" href="/">Đăng nhập</a></p>
+                    </form>
                 </div>
+
             </div>
         </div>
 

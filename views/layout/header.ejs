@@ -4,12 +4,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="https://kit.fontawesome.com/32b2689684.js"></script>
+    <link rel="stylesheet" href="/icon/css/all.css" />
     <link rel="stylesheet" href="/bootstrap/css/bootstrap.min.css" />
 
-    <script src="/event/jquery-3.4.1.min.js"></script>
+    <script src="/bootstrap/js/jquery-3.4.1.min.js"></script>
     <link rel="stylesheet" href="/style/header.css" />
-
 
 </head>
 
@@ -37,7 +36,7 @@
                 </li>
             </ul>
             <form class="form-inline my-2 my-lg-0 ml-auto" id="search-form" action="/search" method="get">
-                <input name="searchUser" id="input-search" class="form-control mr-sm-2" type="text" placeholder="Tìm kiếm người dùng...">
+                <input name="q" id="input-search" class="form-control mr-sm-2" type="text" placeholder="Tìm kiếm người dùng...">
                 <i class="fas fa-search"></i>
                 <button class="btn btn-search" title="Tìm kiếm" type="submit"><i class="fas fa-arrow-right"></i></button>
             </form>
@@ -50,12 +49,13 @@
     <script src="/bootstrap/js/popper.min.js"></script>
     <script src="/bootstrap/js/bootstrap.min.js"></script>
     <script src="/bootstrap/js/moment.min.js"></script>
-
+    <script src="/socket.io/socket.io.js"></script>
 </body>
 
 
 <script>
     $(document).ready(function() {
+
         $('.fa-sort-down').popover({
             html: true,
             content: '<ul class="list-group">' +

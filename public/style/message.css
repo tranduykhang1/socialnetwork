@@ -7,10 +7,15 @@
     margin-top: 50px;
     padding: 0;
     background-color: white;
+    height: 93vh;
 }
 
 .main {
     height: 100%;
+}
+
+#chat-box {
+    position: relative;
 }
 
 #avt-user-list {
@@ -55,33 +60,80 @@
     border-radius: 50px;
 }
 
+.active-online {
+    border: 3px solid rgb(0, 216, 0);
+}
+
+#chat-main,
+#info-user {
+    transition: .5s;
+}
+
 .chat-header {
     border-bottom: 1px solid rgb(172, 172, 172);
     padding: 7px 0;
+    height: 83.8px !important;
+}
+
+.fa-caret-right {
+    transition: .5s;
+    font-size: 20px;
+}
+
+.fa-paper-plane {
+    color: grey;
+    transition: .5s;
+    font-size: 17px;
+}
+
+.fa-circle {
+    font-size: 11px;
+}
+
+.online {
+    color: rgb(0, 250, 0);
+}
+
+.offline {
+    color: rgb(255, 70, 70);
 }
 
 .message {
     clear: both;
-    margin-bottom: 10px;
+    margin-bottom: 30px;
     margin-right: 5px;
     word-wrap: break-word;
-    max-width: 300px;
+    max-width: 550px;
     padding: 5px;
+    border-radius: 20px;
+}
+
+.message>p {
+    padding: 0 !important;
+    margin: 0 !important;
+}
+
+.message>span {
+    color: grey !important;
+    font-size: 11px !important;
 }
 
 #my-message {
-    background: #007bff;
+    padding: 10px;
+    background: rgb(5, 184, 255);
     color: white;
-    border-radius: 15px 1px 15px 15px;
+    /* border-radius: 15px 1px 15px 15px; */
 }
 
 #friend-message {
+    padding: 10px;
     background: rgb(231, 231, 231);
-    border-radius: 1px 15px 15px 15px;
+    /* border-radius: 1px 15px 15px 15px; */
 }
 
-#chat-box {
+.chat-area {
     overflow: auto;
+    height: 72.5vh;
     max-height: 72.5vh;
 }
 
@@ -95,19 +147,73 @@
     border-top: 1px solid rgb(218, 218, 218);
 }
 
-#input-message {
+#send>.form-control {
     background: rgb(77, 77, 77);
-    border: none;
-    border-radius: 0;
+    border: none !important;
+    border-radius: 0 !important;
     padding: 10px 0 !important;
     height: 50px !important;
+}
+
+#sayHello {
+    text-align: center;
+    top: 80%;
+    left: 50%;
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    transform: translateX(-50%);
+    position: absolute;
+    background-color: rgb(212, 245, 255);
+    padding: 10px;
+    border-radius: 40px;
+}
+
+.typing {
+    display: flex;
+    font-size: 40px;
+    padding: 0 10px;
+    height: 40px;
+}
+
+.type-items {
+    position: relative;
+    top: -33px;
+    transition: .5s;
+    animation-name: typing;
+    animation-duration: 1.5s;
+    animation-iteration-count: infinite;
+}
+
+.type1 {
+    animation-delay: 0;
+}
+
+.type2 {
+    animation-delay: .5s;
+}
+
+.type3 {
+    animation-delay: 1s;
+}
+
+@keyframes typing {
+    from {
+        color: black;
+    }
+    to {
+        color: grey;
+    }
 }
 
 input[type=text] {
     margin-left: 15px;
 }
 
-#input-message:focus {
+#input-message {
+    border: none;
+    margin-top: auto;
+}
+
+.form-control:focus {
     box-shadow: none;
 }
 
@@ -127,6 +233,10 @@ input[type=text] {
 
 .info:hover {
     background-color: transparent !important;
+}
+
+.chat-active {
+    background-color: rgb(231, 231, 231) !important;
 }
 
 ::-webkit-scrollbar {

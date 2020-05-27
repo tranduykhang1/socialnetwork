@@ -2,22 +2,28 @@ const express = require('express'),
     session = require('express-session'),
     bodyParser = require('body-parser'),
     app = express(),
+    http = require('http'),
     flash = require('connect-flash'),
-    passport = require('passport');
+    passport = require('passport'),
+    socketIo = require('socket.io'),
+    server = app.listen(process.env.PORT || 8001),
+    io = socketIo.listen(server);
+
+
 app.use(flash());
 
-
-//
-//route
+const socket = require('./handleChat/socket');
+socket(io)
+    //route
 const loginRouter = require('./route/auth.route'),
     homeRouter = require('./route/home.route'),
     community = require('./route/community.route'),
     profile = require('./route/profile.route'),
     message = require('./route/message.route'),
     comment = require('./route/comment/comment.route'),
-    searchUser = require('./route/searchUser/searchUser.route');
-//api
-status = require('./route/status/status.route')
+    searchUser = require('./route/searchUser/searchUser.route'),
+    //api
+    status = require('./route/status/status.route');
 
 app.set('view engine', 'ejs');
 app.use(express.static(__dirname + '/public'));
@@ -27,6 +33,7 @@ app.use(session({
     resave: true,
     saveUninitialized: true,
 }));
+
 app.use(passport.initialize());
 app.use(passport.session());
 
@@ -40,11 +47,8 @@ app.use('/', loginRouter);
 app.use('/', homeRouter);
 app.use('/community', community);
 app.use('/profile', profile);
-app.use('/message', message);
+app.use('/', message);
 app.use('/', status);
 
 app.use('/', comment);
 app.use('/', searchUser);
-
-
-app.listen(8001);

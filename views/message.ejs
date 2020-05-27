@@ -5,12 +5,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel='stylesheet' href="/style/message.css" />
-    <script src="/event/jquery-3.4.1.min.js"></script>
     <title>DiKa</title>
 </head>
 
 <body>
     <%- include('./layout/header.ejs'); %>
+
+        <audio class="d-none audio" src="/sounds/message.mp3" controls></audio>
 
         <div class="container-fluid main">
             <div class="row">
@@ -21,131 +22,320 @@
                         </p>
                     </div>
                     <div class="list-group mt-2">
-                        <% users.forEach(users => { %>
-                            <a href="#" class="list-group-item list-group-item-action d-flex align-items-center"> <img id="avt-user-list" src="<%=users.user_avatar%>" alt="">
-                            <h6 class="ml-2"><%-users.user_firstname + " " + users.user_lastname%></h6></a>
-                            <% }) %>
+                        <p class="valueId d-none"></p>
+                        <% users.forEach(users=> { %>
+                            <% if(users.user_id != user.user_id) { %>
+                                <a id="user<%=users.user_id%>" class="list-group-item list-group-item-action d-flex align-items-center"> <img id="avt-user-list" src="<%=users.user_avatar%>" alt="">
+                                    <div class="d-block ml-2">
+                                        <h6 ><%-users.user_firstname + " " + users.user_lastname%></h6>
+                                    </div>
+                        </a>
+                                <%} %>
+                                    <script>
+                                        $(function() {
+                                            var chatActive = () => {
+                                                $('#user<%=users.user_id%>').click(() => {
+                                                    $('.list-group-item').removeClass('chat-active')
+                                                    $('#user<%=users.user_id%>').addClass('chat-active')
+                                                })
+                                            }
+                                            chatActive();
+                                            // --------- //
+                                            //active user online
+                                            // ---------//
+                                            $('#user<%=users.user_id%>').click(() => {
+                                                $('.valueId').html('<%=users.user_id%>')
+                                                $('#display-info').append(" ")
+                                                $('#chat-box').html("")
+                                                $('#chat-input').append("");
+                                                $('#chat-main').html("")
+
+                                                $('#chat-main').append(
+                                                    '       <div class="col-sm-12 d-flex mt-2 mx-auto chat-header">' +
+                                                    ' <img id="avt-user-chat" src="" alt="">' +
+                                                    '   <div class="d-block p-2">' +
+                                                    '     <h4 class="mb-0" id="chat-name"></h4>' +
+                                                    '    <div class="d-flex">' +
+                                                    '  <i class="fas fa-circle pt-2 pr-2"></i>' +
+                                                    '     <p class="text-muted" id="active"></p>' +
+                                                    '   </div>' +
+                                                    '</div>' +
+                                                    '  <div class="ml-auto pt-3 toggle-icon">' +
+                                                    ' <i class="fas fa-caret-right" title="Ẩn thông tin"></i>' +
+                                                    ' </div>' +
+                                                    '  </div>' +
+                                                    '  <div onload="scrollBottom()"class="d-block mt-2 chat-area" id="chat-box">' +
+                                                    '</div>' +
+                                                    ' </div>' +
+                                                    ' <div id="chat-input">' +
+                                                    '  <form onsubmit="scrollBottom()" id="send" class="bg-light m-auto">' +
+                                                    '   <div class="input-group p-2">' +
+                                                    '  <input id="input-message" type="text" placeholder="Tin nhắn đến <%=users.user_lastname%> " aria-describedby="button-addon2" class="form-control bg-light" autocomplete="off">' +
+                                                    ' <button id="btn-send-message" type="submit" class="btn btn-link"> <i class="fa fa-paper-plane"></i></button>' +
+                                                    '</div>' +
+                                                    '</form>' +
+                                                    '</div>'
+                                                )
+
+                                                // ajax get pre-message
+
+                                                //
+                                                $.ajax({
+                                                    method: 'GET',
+                                                    url: '/message/user/<%=users.user_id%>',
+                                                    success: (user) => {
+                                                        let currentUser = JSON.parse(user);
+                                                        let fullName = currentUser.user_firstname + " " + currentUser.user_lastname
+
+                                                        $('#avt-user-chat').attr('src', currentUser.user_avatar)
+                                                        $('#chat-name').text(fullName);
+                                                        if (currentUser.user_status === "online") {
+                                                            $('#active').text("Đang truy cập")
+                                                            $('.fa-circle').addClass('online');
+                                                        } else {
+                                                            $('#active').text("Đang ngoại tuyến");
+                                                            $('.fa-circle').addClass('offline');
+                                                        }
+                                                        $('#display-info').empty().append(
+                                                            ' <img id="avt-user-active" src="' + currentUser.user_avatar + '" alt="">' +
+                                                            ' <h5 class="p-2">' + fullName + '</h5>' +
+                                                            ' <ul class="list-group-flush mt-5">' +
+                                                            '<li class="list-group-item info">Giới tính:' +
+                                                            '  <strong>' + currentUser.user_gender + '</strong>' +
+                                                            '    </li>' +
+                                                            '  <li class="list-group-item info">Đến từ:' +
+                                                            ' <strong>' + currentUser.user_address + '</strong>' +
+                                                            '  </li>' +
+                                                            ' <li class="list-group-item info">Email:' +
+                                                            '<strong>' + currentUser.user_email + '</strong>' +
+                                                            ' </li>' +
+                                                            '    <li class="list-group-item info">Giới thiệu:' +
+                                                            ' <strong>' + currentUser.user_bio + '</strong>' +
+                                                            '</li>' +
+                                                            ' </ul>'
+
+                                                        )
+                                                    }
+                                                })
+                                                $.ajax({
+                                                    method: 'GET',
+                                                    url: '/getMessage/<%=users.user_id%>',
+                                                    success: message => {
+                                                        message = JSON.parse(message);
+                                                        if (!message.length) {
+                                                            $('#chat-box').append(
+                                                                '<p id="sayHello">Hãy gửi lời chào đến <strong><%=users.user_lastname%> </strong></p>'
+                                                            )
+                                                        }
+                                                        message.forEach(msg => {
+                                                            if (msg.message_sendUser == '<%=users.user_id%>') {
+                                                                $('#chat-box').append(
+                                                                    '<div id="friend-message" class="d-block float-left ml-2 message">' +
+                                                                    ' <p>' + msg.message_content + '</p>' +
+                                                                    '  <span>' + msg.message_time + '</span>' +
+                                                                    '</div>'
+                                                                )
+                                                            }
+                                                            if (msg.message_sendUser == '<%=user.user_id%>') {
+                                                                $('#chat-box').append(
+                                                                    ' <div id="my-message" class="d-block float-right text-right message">' +
+                                                                    '    <p>' + msg.message_content + '</p>' +
+                                                                    '     <span>' + msg.message_time + '</span>' +
+                                                                    '</div>'
+                                                                );
+                                                            }
+
+                                                        });
+                                                    }
+                                                })
+                                            })
+                                        })
+                                    </script>
+                                    <% }) %>
                     </div>
 
                 </div>
                 <div class="col-sm-6 col-md-6 side" id="chat-main">
-                    <div class="col-sm-12 d-flex mt-2 mx-auto chat-header">
-                        <img id="avt-user-chat" src="img/avt.png" alt="">
-                        <div class="d-block p-3">
-                            <h4>Ten user</h4>
-                        </div>
-                    </div>
-                    <div class="d-block mt-2" id="chat-box">
-                        <div id="my-message" class="d-block float-right text-right message">
-                            <p>Day la noi dung tin nhan di </p>
-                            <span>7:00</span>
-                        </div>
-                        <div id="friend-message" class="d-block float-left ml-2 message">
-                            <p>Day la noi dung tin nhan den </p>
-                            <span>7:00</span>
-                        </div>
-                    </div>
-                    <div id="chat-input" class="mt-1">
-                        <form action="#" class="bg-light">
-                            <div class="input-group">
-                                <input id="input-message" type="text" placeholder="Nhập tin nhắn" aria-describedby="button-addon2" class="form-control bg-light" autocomplete="off">
-                                <button id="btn-send-messqge" type="submit" class="btn btn-link"> <i class="fa fa-paper-plane"></i></button>
-                            </div>
-                        </form>
-                    </div>
+                    <!---->
                 </div>
                 <div class="col-sm-3 col-md-3 side" id="info-user">
-                    <div class="text-center mt-4 d-block">
-                        <img id="avt-user-active" src="img/avt.png" alt="">
-                        <h5 class="p-2">Tên user</h5>
-                        <ul class="list-group-flush mt-5">
-                            <li class="list-group-item info">Họ tên:
-                                <strong>  </strong>
-                            </li>
-                            <li class="list-group-item info">Giới tính:
-                                <strong> </strong>
-                            </li>
-                            <li class="list-group-item info">Đến từ:
-                                <strong></strong>
-                            </li>
-                            <li class="list-group-item info">Email:
-                                <strong> </strong>
-                            </li>
-                            <li class="list-group-item info">Giới thiệu:
-                                <strong></strong>
 
-                            </li>
-                        </ul>
+                    <div class="text-center mt-4 d-block" id="display-info">
+
                     </div>
                 </div>
             </div>
         </div>
+
+
+
 </body>
+
+
 <script>
-    $(document).ready(function() {
+    $(function() {
         $(".nav li").removeClass('active');
         $('#message').addClass('active');
-
         $(window).resize(() => {
             let width = window.innerWidth;
             if (width <= 1000) {
                 $('#info-user').hide()
                 $('#chat-main').removeClass('col-sm-6 col-md-6').addClass('col-sm-9 col-md-9')
+                $('.fa-caret-right').hide();
             } else {
                 $('#info-user').show()
                 $('#chat-main').removeClass('col-sm-9 col-md-9').addClass('col-sm-6 col-md-6')
+                $('.fa-caret-right').show();
             }
         })
-
-
-        for (let i = 0; i < 20; i++) {
-            $('#chat-box').append(
-                ' <div id="my-message" class="d-block float-right text-left message">' +
-                '     <p>Day la noi dung tin nhan di </p>' +
-                '<span>7:00</span>' +
-                '  </div>' +
-                ' <div id="friend-message" class="d-block ml-2 float-left message">' +
-                '  <p>Day la noi dung tin nhan den </p>' +
-                '<span>7:00</span>' +
-                '  </div>'
-            )
-        }
-
-        let sendMess = () => {
-            $('#btn-send-messqge').click((e) => {
-                e.preventDefault();
-                if ($('#input-message').val()) {
-                    $('#chat-box').append(
-                        ' <div id="my-message" class="d-block float-right text-left message">' +
-                        '     <p>' + $('#input-message').val() + '</p>' +
-                        '<span>7:00</span>' +
-                        '  </div>'
-                    )
-                }
-                $('#input-message').val("");
+        let changeColorSend = () => {
+            $('body').on('focusin', '#input-message', () => {
+                $('.fa-paper-plane').css('color', '#1267FF')
+            }).on('focusout', () => {
+                $('.fa-paper-plane').css('color', 'grey')
             })
         }
 
 
-        let ScrollBottom = () => {
+        let handleMinute = (m) => {
+                return (m < 10 ? "0" : "") + m;
+            }
+            // socket client
+        var socket = io.connect();
+        let sendMess = () => {
+            $('#btn-send-message').click((e) => {
+                e.preventDefault();
+                const message = $('#input-message').val(),
+                    sendUser = '<%=user.user_id%>',
+                    receiveUser = $('.valueId').text(),
+                    date = new Date(),
+                    minutes = date.getMinutes(),
+                    hour = date.getHours();
+                let getTime = hour + ':' + handleMinute(minutes);
+
+                if ($('#input-message').val().length != 0) {
+                    socket.emit('chat', {
+                        message: message,
+                        sendUser: sendUser,
+                        receiveUser: receiveUser,
+                        time: getTime
+                    })
+                }
+
+                $('#input-message').val("");
+            })
+        }
+
+        let soundTyping = () => {
+            const audio = new Audio('/sounds/typing.mp3');
+            audio.play();
+        }
+
+        let typing = () => {
+            let type;
+            let receiveUser;
+            $('body').on('focusin', '#input-message', () => {
+                receiveUser = $('.valueId').text();
+                type = true
+                socket.emit('typing', {
+                    type,
+                    receiveUser
+                })
+            }).on('focusout', '#input-message', () => {
+                type = !type;
+                socket.emit('typing', {
+                    type,
+                    receiveUser
+                })
+            })
+        }
+
+
+        socket.on('typing', data => {
+                if (data.type === true) {
+                    scrollBottom();
+                    soundTyping();
+                    $('#chat-box').append(
+                            '<div id="friend-message" class="float-left ml-2 message typing">' +
+                            ' <p class="type-items type1">.</p>' +
+                            ' <p class="type-items type2">.</p>' +
+                            ' <p class="type-items type3">.</p>' +
+                            '</div>'
+                        )
+                        // $('.typing').removeClass('d-none').addClass('d-flex')
+                } else {
+                    $('.typing').removeClass('d-flex').addClass('d-none')
+                }
+            })
+            //
+        socket.emit('newUser', '<%=user.user_id%>')
+            //
+        socket.on('private-message', message => {
+            scrollBottom();
+            $('.typing').removeClass('d-flex').addClass('d-none')
+            $('#sayHello').hide(500);
+            if (message.sendUser == '<%=user.user_id %>') {
+                $('#chat-box').append(
+                    ' <div id="my-message" class="d-block float-right text-right message">' +
+                    '    <p>' + message.message + '</p>' +
+                    '     <span>' + message.time + '</span>' +
+                    '</div>'
+                )
+            } else {
+                $('#chat-box').append(
+                    ' <div id="friend-message" class="d-block float-left ml-2 message">' +
+                    '    <p>' + message.message + '</p>' +
+                    '     <span>' + message.time + '</span>' +
+                    '</div>'
+                )
+            }
+        })
+        let toggle = () => {
+            let status = true;
+            $('body').on('click', '.fa-caret-right', () => {
+                console.log('.')
+                status = !status;
+                if (!status) {
+                    $('#info-user').hide();
+                    $('#chat-main').removeClass('col-sm-6 col-md-6').addClass('col-sm-9 col-md-9')
+                    $('.fa-caret-right').css({
+                        'transform': 'rotate(180deg)',
+                        'color': 'blue'
+                    })
+                } else {
+                    $('#info-user').show();
+                    $('#chat-main').removeClass('col-sm-9 col-md-9').addClass('col-sm-6 col-md-6')
+                    $('.fa-caret-right').css({
+                        'transform': 'rotate(0deg)',
+                        'color': 'black'
+                    })
+                }
+            })
+        }
+        var scrollBottom = () => {
             var scroll = $('#chat-box');
             scroll.animate({
                 scrollTop: scroll.prop("scrollHeight")
             });
         }
-        let PressEnter = () => {
-            $('body').keypress(async(e) => {
-                var code = e.keyCode || e.which;
-                if (code === 13) {
-                    ScrollBottom();
-                    await sendMess();
+        let pressEnter = () => {
+                $('body').keypress(async(e) => {
+                    var code = e.keyCode || e.which;
+                    if (code === 13) {
+                        await sendMess();
+                        scrollBottom();
+                    }
 
-                }
-
-            });
-        }
-        PressEnter();
+                });
+            }
+            // Implement function
+        typing();
+        changeColorSend();
+        toggle();
+        scrollBottom();
+        pressEnter();
     })
 </script>
+
 
 </html>

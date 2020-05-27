@@ -35,6 +35,18 @@ module.exports.uploadBg = (req, res) => {
     })
 }
 
+module.exports.userOnline = (userId) => {
+    db.query('update user set user_status = "online" where user_id = "' + userId + '"', (err, result) => {
+        if (err) {
+            throw err
+        }
+    })
+}
+
+module.exports.userOffline = (userId) => {
+    db.query('update user set user_status = "offline" where user_id = "' + userId + '"')
+}
+
 module.exports.uploadAvatar = (req, res) => {
     const image = req.file.originalname,
         userID = req.user.user_id;

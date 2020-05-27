@@ -1,6 +1,6 @@
 const userModel = require('../models/userAPI/user.model'),
-    getStatus = require('../models/statusAPI/getStatus.model'),
-    getComment = require('../models/statusAPI/Comment.mode');
+    getStatus = require('../models/statusAPI/status.model'),
+    getComment = require('../models/statusAPI/comment.mode');
 
 module.exports.home = (req, res) => {
     let userID = req.user.user_id;

@@ -20,12 +20,11 @@
                     <div class="row d-block">
                         <div class="col-sm-6 col-lg-6 mx-auto mt-2 p-4 border shadow-sm" id="post-status">
                             <img class="ml-3" width=40px height=40px src="<%=user.user_avatar%>" alt="" style="border-radius: 50px;">
-                            <button type="button" id="btn-model-post" class="btn btn-outline-dark col-sm-10 " data-toggle="modal" data-target="#statusmodel">
+                            <button type="button" id="btn-model-post" class="btn btn-outline-dark col-sm-10 col-md-10" data-toggle="modal" data-target="#statusModel">
                           Chào <%- user.user_lastname %> , Bạn đang nghĩ gì thế?
                           </button>
                         </div>
-
-                        <div class="modal fade" id="statusmodel" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal fade" id="statusModel" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                             <div class="modal-dialog" role="document">
                                 <div class="modal-content">
                                     <div class="modal-header">
@@ -49,7 +48,6 @@
                                 </div>
                             </div>
                         </div>
-
 
                         <% post.forEach((post) =>{%>
                             <div class="card col-sm-6 col-lg-6 mx-auto mt-4 shadow-sm post-frame">
@@ -80,14 +78,15 @@
                                             <% } %>
 
                                 </div>
-                                <div class="card-footer text-center mt-4">
+                                <div class="card-footer text-center mt-2">
                                     <div class="post-action">
                                         <div class="col-sm-12 text-center d-flex">
                                             <a href="" class="col-sm-6 text-muted" data-toggle="tooltip" data-placement="top" title="Chưa phát triển">
-                                                <span>Thích</span>
+                                                <i class="far fa-thumbs-up"></i>
                                             </a>
-                                            <a class="col-sm-6 show-cmt<%=post.post_id%>" data-toggle="collapse" href="#show-cmt<%=post.post_id%>" role="button" aria-expanded="false" aria-controls="collapseExample">
-                                                <span class="text-muted m-1 count-comment<%=post.post_id%>"></span><span>Bình luận</span> 
+                                            <a class="col-sm-6  show-cmt<%=post.post_id%>" data-toggle="collapse" href="#show-cmt<%=post.post_id%>" role="button" aria-expanded="false" aria-controls="collapseExample">
+                                                <i class="far fa-comment"></i>
+                                                <span class="m-1 count-comment<%=post.post_id%>"></span>
                                             </a>
                                         </div>
                                         <div class="collapse mt-3 pt-3 border-top" id="show-cmt<%=post.post_id%>">
@@ -172,10 +171,9 @@
                                             '</div>' +
                                             '  </div>'
                                         )
-                                        $(document).ready(function() {
-                                            let time = $("#time-comment")
-                                            time.text(moment(time.text()).fromNow())
-                                        })
+                                        let time = $("#time-comment")
+                                        time.text(moment(time.text()).fromNow())
+
                                         $('#input' + id).val("");
                                         loadCount();
                                     })

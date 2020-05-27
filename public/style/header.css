@@ -13,7 +13,7 @@ a:hover {
 }
 
 span {
-    color: black;
+    color: rgb(41, 41, 41);
     font-size: 15px;
     font-family: sans-serif;
     padding: 0 !important;
@@ -30,6 +30,7 @@ html {
     top: 0;
     width: 100%;
     z-index: 2;
+    box-shadow: 1px 2px 5px 0px rgb(207, 207, 207);
 }
 
 #input-search {
@@ -45,7 +46,8 @@ html {
 .navbar {
     height: 50px;
     width: 100%;
-    background: rgb(65, 221, 248);
+    background: rgb(5, 184, 255);
+    color: rgb(41, 41, 41);
 }
 
 .nav-link {
@@ -60,7 +62,7 @@ html {
 
 .nav-link>.fas {
     font-size: 20px;
-    color: rgb(63, 63, 63);
+    color: rgb(41, 41, 41);
     transition: .3s;
     cursor: pointer;
     padding: auto;

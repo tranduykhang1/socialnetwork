@@ -3,11 +3,10 @@ const route = express.Router(),
     upload = multer({ dest: 'public/img/' })
 
 
-const postModel = require('../../models/statusAPI/postStatus.model'),
-    trashModel = require('../../models/statusAPI/trashStatus.model')
+const postModel = require('../../models/statusAPI/status.model');
 
-route.post('/postStatus', upload.single('postImg'), postModel)
-route.get('/trashStatus/:postID', trashModel.trashStatus);
+route.post('/postStatus', upload.single('postImg'), postModel.postStatus)
+route.get('/trashStatus/:postID', postModel.trashStatus);
 
 
 module.exports = route;

@@ -18,27 +18,24 @@
             <div class="col-sm-12 header">
                 <p class="text-center title">DiKa</p>
             </div>
-            <div class="col-sm-4 col-md-4 mx-auto mt-5 border-none">
-                <div class="card card-signin my-5 shadow">
-                    <div class="card-body">
-                        <h5 class="card-title text-center" id="title">Đăng nhập</h5>
-                        <div id="form">
-                            <form action='login' method="POST">
+            <div class="col-sm-4 col-md-4 mx-auto border-none card-signin">
+                <h5 class="text-center text-light" id="title">Đăng nhập</h5>
+                <div id="form">
+                    <form action='login' method="POST" class="col-sm-9 mx-auto">
 
-                                <div class="form-label-group pt-5">
-                                    <input name="username" type="text" class="form-control" placeholder="Tên đăng nhập" required autofocus>
-                                </div>
-                                <div class="form-label-group pt-3">
-                                    <input name="password" type="password" class="form-control" placeholder="Mật khẩu" required>
-                                </div>
-                                <p class="text-danger text-center m-2">
-                                    <%= errMsg.error %>
-                                </p>
-                                <button class="btn btn-lg btn-outline-primary btn-block text-uppercase mt-3 mb-5" type="submit">Đăng nhập</button>
-                                <p class='text-center'><a class="text-success" href="/register">Đăng kí tại đây</a></p>
-                            </form>
+                        <div class="form-label-group pt-3">
+                            <input name="username" type="text" class="form-control" placeholder="Tên đăng nhập" required autofocus>
                         </div>
-                    </div>
+                        <div class="form-label-group pt-3">
+                            <input name="password" type="password" class="form-control" placeholder="Mật khẩu" required>
+                        </div>
+                        <p class="text-danger text-center m-2">
+                            <%= errMsg.error %>
+                        </p>
+                        <button class="btn btn-primary btn-block text-uppercase mt-3 mb-5" type="submit">Đăng nhập</button>
+                        <p class='text-center'><a class="text-light" href="/register">Đăng kí tại đây</a></p>
+                    </form>
+
                 </div>
             </div>
         </div>
