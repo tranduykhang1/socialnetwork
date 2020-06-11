@@ -19,7 +19,7 @@ module.exports = io => {
         })
         socket.on(chat, async message => {
             let socketId = users[message.receiveUser]
-            await model.insertMessage(message.sendUser, message.receiveUser, message.message, message.time);
+            await chatModel.insertMessage(message.sendUser, message.receiveUser, message.message, message.time);
             socket.to(socketId).emit(privateMessage, message)
             socket.emit(privateMessage, message)
         })

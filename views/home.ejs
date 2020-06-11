@@ -81,8 +81,9 @@
                                 <div class="card-footer text-center mt-2">
                                     <div class="post-action">
                                         <div class="col-sm-12 text-center d-flex">
-                                            <a href="" class="col-sm-6 text-muted" data-toggle="tooltip" data-placement="top" title="Chưa phát triển">
-                                                <i class="far fa-thumbs-up"></i>
+                                            <a href="" class="col-sm-6 text-muted" id="like<%=post.post_id%>">
+                                                <i class="far fa-thumbs-up likeActive"></i>
+                                                <span class="m-1 count-like<%=post.post_id%>"></span>
                                             </a>
                                             <a class="col-sm-6  show-cmt<%=post.post_id%>" data-toggle="collapse" href="#show-cmt<%=post.post_id%>" role="button" aria-expanded="false" aria-controls="collapseExample">
                                                 <i class="far fa-comment"></i>
@@ -129,6 +130,7 @@
                             <script>
                                 $(document).ready(function() {
                                     let id = "<%-post.post_id%>";
+                                    let currentUser = '<%=user.user_id%>';
                                     //count comment ajax
                                     let loadCount = () => {
                                         $.ajax({
@@ -147,36 +149,65 @@
                                     loadCount();
                                     //post comment ajax
                                     $("." + id).submit(e => {
-                                        e.preventDefault();
-                                        $.ajax({
-                                            url: "/postComment",
-                                            method: "POST",
-                                            data: {
-                                                userID: '<%=user.user_id%>',
-                                                postID: id,
-                                                content: $('#input' + id).val()
-                                            },
-                                        })
-                                        $('#comment-main' + id).prepend(
-                                            ' <div class="media text-left comment">' +
-                                            ' <img class="mr-3 img-user-cmt" src="<%=user.user_avatar%>">' +
-                                            '  <div class="media-body">' +
-                                            ' <h6 class="mt-0 ">' +
-                                            '  <%- user.user_firstname + " " + user.user_lastname %>' +
-                                            ' </h6>' +
-                                            '  <p>' +
-                                            '   ' + $('#input' + id).val() + '' +
-                                            '  </p>' +
-                                            '<span id="time-comment" class="text-primary">"' + new Date() + '"</span>' +
-                                            '</div>' +
-                                            '  </div>'
-                                        )
-                                        let time = $("#time-comment")
-                                        time.text(moment(time.text()).fromNow())
+                                            e.preventDefault();
+                                            $.ajax({
+                                                url: "/postComment",
+                                                method: "POST",
+                                                data: {
+                                                    userID: currentUser,
+                                                    postID: id,
+                                                    content: $('#input' + id).val()
+                                                },
+                                            })
+                                            $('#comment-main' + id).prepend(
+                                                ' <div class="media text-left comment">' +
+                                                ' <img class="mr-3 img-user-cmt" src="<%=user.user_avatar%>">' +
+                                                '  <div class="media-body">' +
+                                                ' <h6 class="mt-0 ">' +
+                                                '  <%- user.user_firstname + " " + user.user_lastname %>' +
+                                                ' </h6>' +
+                                                '  <p>' +
+                                                '   ' + $('#input' + id).val() + '' +
+                                                '  </p>' +
+                                                '<span id="comment-time" class="text-primary">"' + new Date() + '"</span>' +
+                                                '</div>' +
+                                                '  </div>'
+                                            )
+                                            let time = $("#comment-time")
+                                            time.text(moment(time.text()).fromNow())
 
-                                        $('#input' + id).val("");
-                                        loadCount();
+                                            $('#input' + id).val("");
+                                            loadCount();
+                                        })
+                                        //---//
+                                    var countLike = () => {
+                                        $.ajax({
+                                            url: "/countLike",
+                                            method: "GET",
+                                            success: data => {
+                                                data = JSON.parse(data)
+                                                data.forEach(like => {
+                                                    if (like.like_postID == id) {
+                                                        $('.count-like<%=post.post_id%>').text(like.countLike)
+                                                    }
+                                                })
+
+                                            }
+                                        })
+                                    }
+                                    $('#like' + id).click(async(e) => {
+                                        e.preventDefault();
+                                        await $.ajax({
+                                            url: '/likeStatus',
+                                            method: 'POST',
+                                            data: {
+                                                userLike: currentUser,
+                                                postLike: id
+                                            }
+                                        })
+                                        countLike();
                                     })
+
                                 })
                             </script>
 

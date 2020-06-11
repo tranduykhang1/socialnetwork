@@ -12,7 +12,7 @@ const express = require('express'),
 
 app.use(flash());
 
-const socket = require('./handleChat/socket');
+const socket = require('./handleRealtime/chat.socket');
 socket(io)
     //route
 const loginRouter = require('./route/auth.route'),
@@ -23,7 +23,8 @@ const loginRouter = require('./route/auth.route'),
     comment = require('./route/comment/comment.route'),
     searchUser = require('./route/searchUser/searchUser.route'),
     //api
-    status = require('./route/status/status.route');
+    status = require('./route/status/status.route'),
+    like = require('./route/like/like.route');
 
 app.set('view engine', 'ejs');
 app.use(express.static(__dirname + '/public'));
@@ -52,3 +53,4 @@ app.use('/', status);
 
 app.use('/', comment);
 app.use('/', searchUser);
+app.use('/', like);

@@ -88,6 +88,7 @@
 
 .fa-circle {
     font-size: 11px;
+    margin-top: .5px;
 }
 
 .online {
@@ -105,7 +106,8 @@
     word-wrap: break-word;
     max-width: 550px;
     padding: 5px;
-    border-radius: 20px;
+    border-radius: 10px;
+    box-shadow: 1px 1px 4px 0px whitesmoke;
 }
 
 .message>p {
@@ -114,20 +116,21 @@
 }
 
 .message>span {
-    color: grey !important;
+    color: whitesmoke !important;
     font-size: 11px !important;
 }
 
 #my-message {
     padding: 10px;
-    background: rgb(5, 184, 255);
+    background-image: linear-gradient(to bottom, rgb(130, 52, 255), rgb(13, 98, 255));
     color: white;
     /* border-radius: 15px 1px 15px 15px; */
 }
 
 #friend-message {
     padding: 10px;
-    background: rgb(231, 231, 231);
+    color: rgb(255, 254, 254);
+    background: rgb(155, 155, 155);
     /* border-radius: 1px 15px 15px 15px; */
 }
 
@@ -155,6 +158,18 @@
     height: 50px !important;
 }
 
+#img-intro {
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.intro-chat>p {
+    margin-top: 40px;
+    font-size: 40px;
+    padding: 0 !important;
+}
+
 #sayHello {
     text-align: center;
     top: 80%;
@@ -169,38 +184,39 @@
 
 .typing {
     display: flex;
-    font-size: 40px;
     padding: 0 10px;
     height: 40px;
+    font-size: 15px;
 }
 
 .type-items {
+    font-size: 40px;
     position: relative;
-    top: -33px;
+    top: -30px;
     transition: .5s;
     animation-name: typing;
-    animation-duration: 1.5s;
+    animation-duration: 1s;
     animation-iteration-count: infinite;
 }
 
 .type1 {
-    animation-delay: 0;
+    animation-delay: .1;
 }
 
 .type2 {
-    animation-delay: .5s;
+    animation-delay: .3s;
 }
 
 .type3 {
-    animation-delay: 1s;
+    animation-delay: .6s;
 }
 
 @keyframes typing {
     from {
-        color: black;
+        color: rgb(255, 255, 255);
     }
     to {
-        color: grey;
+        color: rgb(104, 104, 104);
     }
 }
 

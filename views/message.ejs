@@ -155,10 +155,15 @@
                     </div>
 
                 </div>
-                <div class="col-sm-6 col-md-6 side" id="chat-main">
+                <div class="col side" id="chat-main">
                     <!---->
+
+                    <div class="intro-chat">
+                        <p class="text-center">Xin chào</p>
+                        <img id="img-intro" height=500 width=700 src="/img/background-chat.jpg" />
+                    </div>
                 </div>
-                <div class="col-sm-3 col-md-3 side" id="info-user">
+                <div class="side" id="info-user">
 
                     <div class="text-center mt-4 d-block" id="display-info">
 
@@ -174,7 +179,7 @@
 
 <script>
     $(function() {
-        $(".nav li").removeClass('active');
+        $(".nav li ").removeClass('active');
         $('#message').addClass('active');
         $(window).resize(() => {
             let width = window.innerWidth;
@@ -198,7 +203,7 @@
 
 
         let handleMinute = (m) => {
-                return (m < 10 ? "0" : "") + m;
+                return (m < 10 ? "0 " : " ") + m;
             }
             // socket client
         var socket = io.connect();
@@ -222,7 +227,7 @@
                     })
                 }
 
-                $('#input-message').val("");
+                $('#input-message').val(" ");
             })
         }
 
@@ -254,9 +259,9 @@
         socket.on('typing', data => {
                 if (data.type === true) {
                     scrollBottom();
-                    soundTyping();
+                    // soundTyping();
                     $('#chat-box').append(
-                            '<div id="friend-message" class="float-left ml-2 message typing">' +
+                            '<div id="friend-message" class="float-left ml-2 message typing">Đang soạn tin' +
                             ' <p class="type-items type1">.</p>' +
                             ' <p class="type-items type2">.</p>' +
                             ' <p class="type-items type3">.</p>' +
@@ -276,7 +281,7 @@
             $('#sayHello').hide(500);
             if (message.sendUser == '<%=user.user_id %>') {
                 $('#chat-box').append(
-                    ' <div id="my-message" class="d-block float-right text-right message">' +
+                    ' <div id="my-message"  class="d-block float-right text-right message">' +
                     '    <p>' + message.message + '</p>' +
                     '     <span>' + message.time + '</span>' +
                     '</div>'
@@ -319,15 +324,19 @@
             });
         }
         let pressEnter = () => {
-                $('body').keypress(async(e) => {
-                    var code = e.keyCode || e.which;
-                    if (code === 13) {
-                        await sendMess();
-                        scrollBottom();
-                    }
-
-                });
-            }
+            $('body').keypress(async(e) => {
+                var code = e.keyCode || e.which;
+                if (code === 13) {
+                    await sendMess();
+                    scrollBottom();
+                }
+            });
+        }
+        $('.list-group-item-action').click(() => {
+                scrollBottom();
+                $('#chat-main').addClass('col-sm-6')
+                $('#info-user').addClass('col-sm-3')
+            })
             // Implement function
         typing();
         changeColorSend();

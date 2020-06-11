@@ -45,15 +45,37 @@ module.exports.postStatus = (req, res) => {
 
 module.exports.trashStatus = async(req, res) => {
     let postID = req.params.postID
-    db.query('delete from comment where comment_postID = ?', [postID], (err) => {
+    deleteComment(postID, (err, res) => {
         if (err) {
             throw err
-        } else {
+        }
+        deleteLike(postID, (err, res) => {
+            if (err) {
+                throw err
+            }
             db.query('delete from post where post_id = ?', [postID], (err) => {
                 if (err) {
                     throw err
                 }
             })
+        })
+
+    })
+}
+
+let deleteComment = (postID, cb) => {
+    db.query('delete from comment where comment_postID = ?', [postID], (err, res) => {
+        if (err) {
+            return cb(new Error())
         }
+        return cb(null, true)
+    })
+}
+let deleteLike = (postID, cb) => {
+    db.query('delete from _like where like_postID = ?', postID, (err, res) => {
+        if (err) {
+            return cb(new Error)
+        }
+        return cb(null, true)
     })
 }
