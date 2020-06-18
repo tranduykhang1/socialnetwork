@@ -82,7 +82,7 @@
                                     <div class="post-action">
                                         <div class="col-sm-12 text-center d-flex">
                                             <a href="" class="col-sm-6 text-muted" id="like<%=post.post_id%>">
-                                                <i class="far fa-thumbs-up likeActive"></i>
+                                                <i class="far fa-thumbs-up like<%=post.post_id%>"></i>
                                                 <span class="m-1 count-like<%=post.post_id%>"></span>
                                             </a>
                                             <a class="col-sm-6  show-cmt<%=post.post_id%>" data-toggle="collapse" href="#show-cmt<%=post.post_id%>" role="button" aria-expanded="false" aria-controls="collapseExample">
@@ -195,9 +195,24 @@
                                             }
                                         })
                                     }
-                                    $('#like' + id).click(async(e) => {
+                                    let getAllLike = () => {
+                                        $.ajax({
+                                            url: "/getAllLike",
+                                            method: 'GET',
+                                            success: data => {
+                                                data = JSON.parse(data)
+                                                data.forEach(like => {
+                                                    if (like.like_postID == id && like.like_userID == currentUser) {
+                                                        console.log(id)
+                                                        $('.like' + id).addClass('likeActive')
+                                                    }
+                                                });
+                                            }
+                                        })
+                                    }
+                                    $('#like' + id).click((e) => {
                                         e.preventDefault();
-                                        await $.ajax({
+                                        $.ajax({
                                             url: '/likeStatus',
                                             method: 'POST',
                                             data: {
@@ -205,9 +220,11 @@
                                                 postLike: id
                                             }
                                         })
+                                        getAllLike();
                                         countLike();
                                     })
-
+                                    getAllLike();
+                                    countLike();
                                 })
                             </script>
 

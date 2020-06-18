@@ -3,7 +3,7 @@ const db = require('../../DB/db');
 module.exports.likeStatus = (req, res) => {
     let userLike = req.body.userLike,
         postLike = req.body.postLike;
-    getLike(userLike, postLike, (err, data) => {
+    getLikeByUser(userLike, postLike, (err, data) => {
         if (data.length) {
             deleteLike(userLike, postLike)
         } else {
@@ -12,12 +12,18 @@ module.exports.likeStatus = (req, res) => {
     })
 }
 module.exports.countLike = (req, res) => {
-    db.query("SELECT count(like_postID) as 'countLike', like_postID, like_id from _like GROUP BY like_postID", (err, data) => {
+    db.query("SELECT count(like_postID) as 'countLike', like_postID, like_userID, like_id from _like GROUP BY like_postID", (err, data) => {
         res.end(JSON.stringify(data));
     })
 }
+module.exports.getALlLike = (req, res) => {
+    db.query("SELECT * FROM _like", (err, data) => {
+        res.end(JSON.stringify(data))
+    })
+}
 
-let getLike = (userID, postID, cb) => {
+
+let getLikeByUser = (userID, postID, cb) => {
     db.query("select * from _like where like_userID = '" + userID + "' and like_postID = '" + postID + "'  ", (err, data) => {
         if (err) {
             return cb(new Error("Err"))

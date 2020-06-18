@@ -203,7 +203,7 @@
 
 
         let handleMinute = (m) => {
-                return (m < 10 ? "0 " : " ") + m;
+                return (m < 10 ? "0" : "") + m;
             }
             // socket client
         var socket = io.connect();
@@ -227,7 +227,7 @@
                     })
                 }
 
-                $('#input-message').val(" ");
+                $('#input-message').val("");
             })
         }
 

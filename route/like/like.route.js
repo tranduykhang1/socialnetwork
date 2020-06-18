@@ -3,5 +3,6 @@ const route = express.Router(),
 
 route.post('/likeStatus', likeModel.likeStatus);
 route.get('/countLike', likeModel.countLike);
+route.get('/getAllLike', likeModel.getALlLike);
 
 module.exports = route;

@@ -32,6 +32,7 @@ module.exports.postStatus = (req, res) => {
         postDay = new Date(),
         userID = req.user.user_id
 
+    console.log(postDay)
     db.query("insert into post(post_content, post_image, post_day, post_userID) values " +
         "('" + postContent + "','" + postImg + "','" + postDay + "','" + userID + "')", (err) => {
             if (err) {
