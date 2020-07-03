@@ -203,7 +203,6 @@
                                                 data = JSON.parse(data)
                                                 data.forEach(like => {
                                                     if (like.like_postID == id && like.like_userID == currentUser) {
-                                                        console.log(id)
                                                         $('.like' + id).addClass('likeActive')
                                                     }
                                                 });
