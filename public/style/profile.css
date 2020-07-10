@@ -145,3 +145,20 @@ input:focus {
 i {
     cursor: pointer;
 }
+
+.post-frame {
+    max-width: 100% !important;
+}
+
+.post-action {
+    margin-top: -100px;
+}
+
+.card-footer {
+    height: 1% !important;
+    padding: auto !important;
+}
+
+.likeActive {
+    color: rgb(0, 81, 255);
+}

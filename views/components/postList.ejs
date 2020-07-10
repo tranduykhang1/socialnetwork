@@ -1,0 +1,210 @@
+<% post.forEach((post, index) =>{%>
+    <div class="col-sm-12 bg-white border shadow p-3 text-center mt-3 d-none" id="alert<%=index%>">
+        <p class="text">Bạn muốn xoá bài viết này?</p>
+        <button class="btn btn-dark ml-auto" id="btn-cancel<%=index%>">Không</button>
+        <button class="btn btn-danger ml-auto" id="btn-yes<%=index%>">Xoá</button>
+    </div>
+    <div class="card col-sm-12 col-md-10 col-lg-6 mx-auto mt-4 shadow-sm post-frame" id="post<%=index%>">
+        <div class="card-body mt-3 p-0">
+            <div class="card-title d-flex">
+                <img id="post-avt" src="<%=post.user_avatar%>" alt="" width="50px" height="50px">
+                <div class="post-detail ml-3">
+                    <h5 id="post-name">
+                        <%- post.user_firstname + " " + post.user_lastname %>
+                    </h5>
+
+                    <span class="post-time" id="post<%=post.post_id%>"><%-post.post_day %></span>
+                    <script>
+                        $(document).ready(function() {
+                            let time = $('#post<%=post.post_id%>')
+                            time.text(moment(time.text()).fromNow())
+                        })
+                    </script>
+                </div>
+
+                <div class="ml-auto">
+                    <i class="fas fa-trash-alt" id="trash<%=index%>" title="Xoá bài viết"></i>
+                </div>
+            </div>
+            <p class="card-text">
+                <%- post.post_content %>
+            </p>
+            <% if(!post.post_image) {%>
+
+                <% } else {%>
+                    <img src="img/<%=post.post_image%>" width="100%" height="300px" />
+                    <% } %>
+
+        </div>
+        <div class="card-footer text-center mt-2">
+            <div class="post-action">
+                <div class="col-sm-12 text-center d-flex">
+                    <a href="" class="col-sm-6 text-muted" id="like<%=post.post_id%>">
+                        <i class="far fa-thumbs-up like<%=post.post_id%>"></i>
+                        <span class="m-1 count-like<%=post.post_id%>"></span>
+                    </a>
+                    <a class="col-sm-6  show-cmt<%=post.post_id%>" data-toggle="collapse" href="#show-cmt<%=post.post_id%>" role="button" aria-expanded="false" aria-controls="collapseExample">
+                        <i class="far fa-comment"></i>
+                        <span class="m-1 count-comment<%=post.post_id%>"></span>
+                    </a>
+                </div>
+                <div class="collapse mt-3 pt-3 border-top" id="show-cmt<%=post.post_id%>">
+                    <% comment.forEach(cmt => { %>
+                        <div id="comment-main<%=post.post_id%>">
+                            <% if(cmt.comment_postID == post.post_id) {%>
+                                <div class="media text-left comment p-1">
+                                    <img class="mr-3 img-user-cmt" src="<%=cmt.user_avatar%>">
+                                    <div class="media-body">
+                                        <h6 class="mt-0">
+                                            <%- cmt.user_firstname + " " + cmt.user_lastname %>
+                                        </h6>
+                                        <p>
+                                            <%-cmt.comment_content%>
+                                        </p>
+                                        <span id="time<%=cmt.comment_id%>" class="text-muted"><%-cmt.comment_day%></span>
+                                        <script>
+                                            $(document).ready(function() {
+                                                let time = $('#time<%=cmt.comment_id%>')
+                                                time.text(moment(time.text()).fromNow())
+                                            })
+                                        </script>
+                                    </div>
+                                </div>
+                                <% } %>
+                        </div>
+                        <% }); %>
+                            <div class="form-group mt-3">
+                                <form class="form-inline <%-post.post_id%>">
+                                    <img src="<%=user.user_avatar%>" class="rounded-pill ml-1" width=50px height=50px>
+                                    <input placeholder="Nhập bình luận" id="input<%-post.post_id%>" type="text" class="form-control ml-3 col-sm-10 rounded-pill border comment-input" autocomplete="off">
+                                </form>
+                            </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        $(document).ready(function() {
+            let id = "<%-post.post_id%>";
+            let currentUser = '<%=user.user_id%>';
+            //count comment ajax
+            let loadCount = () => {
+                $.ajax({
+                    url: '/getCountComment',
+                    method: 'GET',
+                    success: result => {
+                        result = JSON.parse(result);
+                        result.forEach(rs => {
+                            if (rs.comment_postID == '<%-post.post_id%>') {
+                                $('.count-comment<%=post.post_id%>').text(rs.countComment)
+                            }
+                        })
+                    }
+                })
+            }
+            loadCount();
+            //post comment ajax
+            $("." + id).submit(e => {
+                    e.preventDefault();
+                    $.ajax({
+                        url: "/postComment",
+                        method: "POST",
+                        data: {
+                            userID: currentUser,
+                            postID: id,
+                            content: $('#input' + id).val()
+                        },
+                    })
+                    $('#comment-main' + id).prepend(
+                        ' <div class="media text-left comment">' +
+                        ' <img class="mr-3 img-user-cmt" src="<%=user.user_avatar%>">' +
+                        '  <div class="media-body">' +
+                        ' <h6 class="mt-0 ">' +
+                        '  <%- user.user_firstname + " " + user.user_lastname %>' +
+                        ' </h6>' +
+                        '  <p>' +
+                        '   ' + $('#input' + id).val() + '' +
+                        '  </p>' +
+                        '<span id="comment-time" class="text-primary">"' + new Date() + '"</span>' +
+                        '</div>' +
+                        '  </div>'
+                    )
+                    let time = $("#comment-time")
+                    time.text(moment(time.text()).fromNow())
+
+                    $('#input' + id).val("");
+                    loadCount();
+                })
+                //---//
+            var countLike = () => {
+                $.ajax({
+                    url: "/countLike",
+                    method: "GET",
+                    success: data => {
+                        data = JSON.parse(data)
+                        data.forEach(like => {
+                            if (like.like_postID == id) {
+                                $('.count-like<%=post.post_id%>').text(like.countLike)
+                            }
+                        })
+
+                    }
+                })
+            }
+            let getAllLike = () => {
+                let count = $('.count-like<%=post.post_id%>').val();
+                $.ajax({
+                    url: "/getAllLike",
+                    method: 'GET',
+                    success: data => {
+                        data = JSON.parse(data)
+                        data.forEach(like => {
+                            if (like.like_postID == id && like.like_userID == currentUser) {
+                                $('.like' + id).addClass('likeActive')
+                            }
+                        });
+                    }
+                })
+            }
+            $('#like' + id).click((e) => {
+                e.preventDefault()
+                $('.like' + id).toggleClass('likeActive')
+                $.post('/likeStatus', {
+                    userLike: currentUser,
+                    postLike: id
+                })
+                countLike();
+
+            })
+            getAllLike();
+            countLike();
+            // -----------------------//
+            let toggle = () => {
+                $('#post<%=index%>').animate({
+                    opacity: 'toggle',
+                    height: 'toggle'
+                }, 'fast');
+            }
+            $('#trash<%=index%>').click(e => {
+                e.preventDefault();
+                toggle()
+                $('#alert<%=index%>').removeClass('d-none')
+                $('#btn-cancel<%=index%>').click(() => {
+                    toggle()
+                    $('#alert<%=index%>').addClass('d-none')
+                })
+                $('#btn-yes<%=index%>').click(() => {
+                    $.ajax({
+                        url: 'trashStatus/<%=post.post_id%>',
+                        method: 'GET',
+                    })
+                    $('#alert<%=index%>').hide();
+                })
+            })
+
+        })
+    </script>
+
+    <%});%>

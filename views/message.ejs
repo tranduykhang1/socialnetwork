@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel='stylesheet' href="/style/message.css" />
-    <title>DiKa</title>
+    <title>Tin Nhắn</title>
 </head>
 
 <body>
@@ -23,135 +23,9 @@
                     </div>
                     <div class="list-group mt-2">
                         <p class="valueId d-none"></p>
-                        <% users.forEach(users=> { %>
-                            <% if(users.user_id != user.user_id) { %>
-                                <a id="user<%=users.user_id%>" class="list-group-item list-group-item-action d-flex align-items-center"> <img id="avt-user-list" src="<%=users.user_avatar%>" alt="">
-                                    <div class="d-block ml-2">
-                                        <h6 ><%-users.user_firstname + " " + users.user_lastname%></h6>
-                                    </div>
-                        </a>
-                                <%} %>
-                                    <script>
-                                        $(function() {
-                                            var chatActive = () => {
-                                                $('#user<%=users.user_id%>').click(() => {
-                                                    $('.list-group-item').removeClass('chat-active')
-                                                    $('#user<%=users.user_id%>').addClass('chat-active')
-                                                })
-                                            }
-                                            chatActive();
-                                            // --------- //
-                                            //active user online
-                                            // ---------//
-                                            $('#user<%=users.user_id%>').click(() => {
-                                                $('.valueId').html('<%=users.user_id%>')
-                                                $('#display-info').append(" ")
-                                                $('#chat-box').html("")
-                                                $('#chat-input').append("");
-                                                $('#chat-main').html("")
-
-                                                $('#chat-main').append(
-                                                    '       <div class="col-sm-12 d-flex mt-2 mx-auto chat-header">' +
-                                                    ' <img id="avt-user-chat" src="" alt="">' +
-                                                    '   <div class="d-block p-2">' +
-                                                    '     <h4 class="mb-0" id="chat-name"></h4>' +
-                                                    '    <div class="d-flex">' +
-                                                    '  <i class="fas fa-circle pt-2 pr-2"></i>' +
-                                                    '     <p class="text-muted" id="active"></p>' +
-                                                    '   </div>' +
-                                                    '</div>' +
-                                                    '  <div class="ml-auto pt-3 toggle-icon">' +
-                                                    ' <i class="fas fa-caret-right" title="Ẩn thông tin"></i>' +
-                                                    ' </div>' +
-                                                    '  </div>' +
-                                                    '  <div onload="scrollBottom()"class="d-block mt-2 chat-area" id="chat-box">' +
-                                                    '</div>' +
-                                                    ' </div>' +
-                                                    ' <div id="chat-input">' +
-                                                    '  <form onsubmit="scrollBottom()" id="send" class="bg-light m-auto">' +
-                                                    '   <div class="input-group p-2">' +
-                                                    '  <input id="input-message" type="text" placeholder="Tin nhắn đến <%=users.user_lastname%> " aria-describedby="button-addon2" class="form-control bg-light" autocomplete="off">' +
-                                                    ' <button id="btn-send-message" type="submit" class="btn btn-link"> <i class="fa fa-paper-plane"></i></button>' +
-                                                    '</div>' +
-                                                    '</form>' +
-                                                    '</div>'
-                                                )
-
-                                                // ajax get pre-message
-
-                                                //
-                                                $.ajax({
-                                                    method: 'GET',
-                                                    url: '/message/user/<%=users.user_id%>',
-                                                    success: (user) => {
-                                                        let currentUser = JSON.parse(user);
-                                                        let fullName = currentUser.user_firstname + " " + currentUser.user_lastname
-
-                                                        $('#avt-user-chat').attr('src', currentUser.user_avatar)
-                                                        $('#chat-name').text(fullName);
-                                                        if (currentUser.user_status === "online") {
-                                                            $('#active').text("Đang truy cập")
-                                                            $('.fa-circle').addClass('online');
-                                                        } else {
-                                                            $('#active').text("Đang ngoại tuyến");
-                                                            $('.fa-circle').addClass('offline');
-                                                        }
-                                                        $('#display-info').empty().append(
-                                                            ' <img id="avt-user-active" src="' + currentUser.user_avatar + '" alt="">' +
-                                                            ' <h5 class="p-2">' + fullName + '</h5>' +
-                                                            ' <ul class="list-group-flush mt-5">' +
-                                                            '<li class="list-group-item info">Giới tính:' +
-                                                            '  <strong>' + currentUser.user_gender + '</strong>' +
-                                                            '    </li>' +
-                                                            '  <li class="list-group-item info">Đến từ:' +
-                                                            ' <strong>' + currentUser.user_address + '</strong>' +
-                                                            '  </li>' +
-                                                            ' <li class="list-group-item info">Email:' +
-                                                            '<strong>' + currentUser.user_email + '</strong>' +
-                                                            ' </li>' +
-                                                            '    <li class="list-group-item info">Giới thiệu:' +
-                                                            ' <strong>' + currentUser.user_bio + '</strong>' +
-                                                            '</li>' +
-                                                            ' </ul>'
-
-                                                        )
-                                                    }
-                                                })
-                                                $.ajax({
-                                                    method: 'GET',
-                                                    url: '/getMessage/<%=users.user_id%>',
-                                                    success: message => {
-                                                        message = JSON.parse(message);
-                                                        if (!message.length) {
-                                                            $('#chat-box').append(
-                                                                '<p id="sayHello">Hãy gửi lời chào đến <strong><%=users.user_lastname%> </strong></p>'
-                                                            )
-                                                        }
-                                                        message.forEach(msg => {
-                                                            if (msg.message_sendUser == '<%=users.user_id%>') {
-                                                                $('#chat-box').append(
-                                                                    '<div id="friend-message" class="d-block float-left ml-2 message">' +
-                                                                    ' <p>' + msg.message_content + '</p>' +
-                                                                    '  <span>' + msg.message_time + '</span>' +
-                                                                    '</div>'
-                                                                )
-                                                            }
-                                                            if (msg.message_sendUser == '<%=user.user_id%>') {
-                                                                $('#chat-box').append(
-                                                                    ' <div id="my-message" class="d-block float-right text-right message">' +
-                                                                    '    <p>' + msg.message_content + '</p>' +
-                                                                    '     <span>' + msg.message_time + '</span>' +
-                                                                    '</div>'
-                                                                );
-                                                            }
-
-                                                        });
-                                                    }
-                                                })
-                                            })
-                                        })
-                                    </script>
-                                    <% }) %>
+                        <!-- component message items -->
+                        <%- include('./components/messageItems.ejs') %>
+                            <!-- component message items -->
                     </div>
 
                 </div>
@@ -160,7 +34,7 @@
 
                     <div class="intro-chat">
                         <p class="text-center">Xin chào</p>
-                        <img id="img-intro" height=500 width=700 src="/img/background-chat.jpg" />
+                        <img class="img-fluid" id="img-intro" height=500 width=700 src="/img/background-chat.jpg" />
                     </div>
                 </div>
                 <div class="side" id="info-user">
@@ -298,7 +172,6 @@
         let toggle = () => {
             let status = true;
             $('body').on('click', '.fa-caret-right', () => {
-                console.log('.')
                 status = !status;
                 if (!status) {
                     $('#info-user').hide();
