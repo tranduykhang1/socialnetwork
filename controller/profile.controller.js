@@ -10,7 +10,7 @@ module.exports.profile = (req, res) => {
     userModel.getUserById(userID, (err, user) => {
         statusModel.getStatusByUser(userID, (err, post) => {
             commentModel.getComment((err, comment) => {
-                res.render('profile.ejs', { user: user, post: post, comment: comment })
+                res.render('profile.ejs', { user: user, post: post, comment: comment, isDelete: true })
             })
         })
     })

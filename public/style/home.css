@@ -95,7 +95,9 @@ span {
 }
 
 .likeActive {
-    color: rgb(0, 81, 255);
+    color: rgb(255, 2, 57);
+    transition: color .7s;
+    font-size: 17px;
 }
 
 .comment {
@@ -109,4 +111,10 @@ span {
     left: 35%;
     width: 460px;
     margin-bottom: 20px !important;
+}
+
+.side-list {
+    background-color: white;
+    position: sticky !important;
+    top: 110px !important;
 }

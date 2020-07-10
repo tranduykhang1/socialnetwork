@@ -23,9 +23,10 @@
                 <%-postSuccess%>
             </p> -->
             <% } %>
-                <div class="container main">
-                    <div class="row d-block">
-                        <div class="col-sm-12 col-md-10 col-lg-6 mx-auto mt-2 p-4 border shadow-sm" id="post-status">
+                <div class="container-fluid main row">
+                    <div class="col-sm-3 border ml-auto h-25 side-list">danh sach ban be</div>
+                    <div class="row d-block col-6">
+                        <div class="col-sm-12 col-md-10 col-lg-10 mx-auto mt-2 p-4 border shadow-sm" id="post-status">
                             <img class="ml-3" width=40px height=40px src="<%=user.user_avatar%>" alt="" style="border-radius: 50px;">
                             <button type="button" id="btn-model-post" class="btn btn-outline-dark col-sm-10 col-md-10" data-toggle="modal" data-target="#statusModel">
                           Chào <%- user.user_lastname %> , Bạn đang nghĩ gì thế?
@@ -61,6 +62,7 @@
                             <!--post list-->
 
                     </div>
+                    <div class="col-sm-3 border h-25 side-list">danh sach online</div>
                 </div>
 
 

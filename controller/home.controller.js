@@ -8,7 +8,7 @@ module.exports.home = (req, res) => {
     userModel.getUserById(userID, (err, user) => {
         getStatus.getAllPost((err, post) => {
             getComment.getComment((err, comment) => {
-                res.render('home', { user: user, post: post, comment: comment, postSuccess: message });
+                res.render('home', { user: user, post: post, comment: comment, postSuccess: message, isDelete: false });
             })
         })
     })

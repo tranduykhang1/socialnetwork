@@ -4,7 +4,7 @@
         <button class="btn btn-dark ml-auto" id="btn-cancel<%=index%>">Không</button>
         <button class="btn btn-danger ml-auto" id="btn-yes<%=index%>">Xoá</button>
     </div>
-    <div class="card col-sm-12 col-md-10 col-lg-6 mx-auto mt-4 shadow-sm post-frame" id="post<%=index%>">
+    <div class="card col-sm-12 col-md-10 col-lg-10 mx-auto mt-4 shadow-sm post-frame" id="post<%=index%>">
         <div class="card-body mt-3 p-0">
             <div class="card-title d-flex">
                 <img id="post-avt" src="<%=post.user_avatar%>" alt="" width="50px" height="50px">
@@ -22,9 +22,12 @@
                     </script>
                 </div>
 
-                <div class="ml-auto">
-                    <i class="fas fa-trash-alt" id="trash<%=index%>" title="Xoá bài viết"></i>
-                </div>
+                <%if(isDelete){%>
+                    <div class="ml-auto">
+                        <i class="fas fa-trash-alt" id="trash<%=index%>" title="Xoá bài viết"></i>
+                    </div>
+                    <%  } %>
+
             </div>
             <p class="card-text">
                 <%- post.post_content %>
@@ -39,8 +42,8 @@
         <div class="card-footer text-center mt-2">
             <div class="post-action">
                 <div class="col-sm-12 text-center d-flex">
-                    <a href="" class="col-sm-6 text-muted" id="like<%=post.post_id%>">
-                        <i class="far fa-thumbs-up like<%=post.post_id%>"></i>
+                    <a href="" class="col-sm-6 text-muted border-right" id="like<%=post.post_id%>">
+                        <i class="fas fa-heart like<%=post.post_id%>"></i>
                         <span class="m-1 count-like<%=post.post_id%>"></span>
                     </a>
                     <a class="col-sm-6  show-cmt<%=post.post_id%>" data-toggle="collapse" href="#show-cmt<%=post.post_id%>" role="button" aria-expanded="false" aria-controls="collapseExample">
@@ -138,7 +141,7 @@
                     loadCount();
                 })
                 //---//
-            var countLike = () => {
+            let countLike = () => {
                 $.ajax({
                     url: "/countLike",
                     method: "GET",
@@ -149,7 +152,6 @@
                                 $('.count-like<%=post.post_id%>').text(like.countLike)
                             }
                         })
-
                     }
                 })
             }
