@@ -22,24 +22,37 @@
                     <p class="text-center text-danger col-sm-12">Không tìm thấy kết quả mong muốn</p>
                     <% }%>
                         <% users.forEach((u,index) => { %>
-                            <div class="col-sm-8 col-lg-8 mx-auto p-3" id="user-block">
-                                <div class="media p-3">
-                                    <a href="" class="d-flex" data-toggle="popover" data-trigger="hover" data-placement="left" data-html="true" data-content="<img id='bg-popover' class='img-thumbnail mx-auto d-block' src='<%=u.user_background%>'/> <img id='avt-popover' width=80px height=80px class='mx-auto d-block' src='<%=u.user_avatar%>'/><br/> <h6 class='username-popover'><%=u.user_firstname + ' ' +u.user_lastname%> </h6>">
+                            <%if(u.user_id != user.user_id) {%>
+                                <div class="col-sm-8 col-lg-8 mx-auto p-3" id="user-block">
+                                    <div class="media p-3">
+                                        <a href="/profile/<%=u.user_id%>" class="d-flex" data-toggle="popover" data-trigger="hover" data-placement="left" data-html="true" data-content="<img id='bg-popover' class='img-thumbnail mx-auto d-block' src='<%=u.user_background%>'/> <img id='avt-popover' width=80px height=80px class='mx-auto d-block' src='<%=u.user_avatar%>'/><br/> <h6 class='username-popover'><%=u.user_firstname + ' ' +u.user_lastname%> </h6>">
                             <img id="user-avt" src="<%= u.user_avatar%>" class="mr-3" alt="Avatar Err" width="50px" height="50px"/>
                     <h6 class="p-2">
                         <%=u.user_firstname + " " + u.user_lastname %>
                     </h6>
                     </a>
-                                    <button id="addFriend<%=index%>" class="btn btn-outline-danger ml-auto">Kết bạn</button>
-                                </div>
+                                        <button id="addFriend<%=index%>" class="btn btn-outline-danger ml-auto">Kết bạn</button>
+                                    </div>
 
-                            </div>
-                            <% }) %>
+                                </div>
+                                <%}%>
+
+                                    <script>
+                                        $(function() {
+                                            $('#addFriend<%=index%>').click(() => {
+                                                $.post('/friend_request', {
+
+                                                })
+                                            })
+                                        })
+                                    </script>
+                                    <% }) %>
             </div>
         </div>
 
         <script>
             $(document).ready(function() {
+
                 $(".nav li").removeClass('active');
                 $('#users').addClass('active');
 

@@ -14,6 +14,12 @@ module.exports.getAllUsers = cb => {
         return cb(null, data)
     })
 }
+
+module.exports.recentUsers = (req, res) => {
+    db.query('select * from user', (err, data) => {
+        return res.json(data)
+    })
+}
 module.exports.searchUser = (name, cb) => {
     db.query("SELECT * FROM user WHERE CONCAT( user_firstname,  ' ', user_lastname ) LIKE  '%" + name + "%' ", (err, result) => {
         if (err) {

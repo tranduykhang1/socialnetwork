@@ -1,0 +1,47 @@
+<style>
+    .user-items {
+        cursor: pointer;
+        border-bottom: .5px solid rgb(228, 228, 228);
+        transition: .7 all;
+    }
+    
+    .user-items:hover {
+        border-bottom: .5px solid rgb(167, 167, 167)
+    }
+</style>
+
+<div class="col-sm-3 border h-25 ml-auto side-list p-3 rounded shadow-sm">
+    <div class="card" style="border: none !important">
+        <div class="card-title">
+            <h6 class="text-center">Tham gia gần đây</h6>
+        </div>
+        <div class="card-body recent-users">
+
+        </div>
+        <a type="button" href="/community" class="btn btn-outline-dark">Xem thêm</a>
+    </div>
+
+</div>
+
+<script>
+    $(function() {
+        $.get('/recent_users').then(users => {
+            users = users.splice(0, 5);
+            users.map(userItem => {
+                if (userItem.user_id != '<%=user.user_id%>') {
+                    $('.recent-users').append(
+                        '<a class="text-dark" href="/profile/' + userItem.user_id + '">' +
+                        '<div class="media p-2 user-items d-flex align-items-center">' +
+                        ' <img height="50px" width="50px" class="mr-2 rounded-circle" src="' + userItem.user_avatar + '" alt="Ảnh đại diện">' +
+                        '<div class="media-body ">' +
+                        '  <strong class="mt-0">' + userItem.user_firstname + " " + userItem.user_lastname + '</strong>' +
+                        '</div>' +
+                        '</div>' +
+                        '</a>'
+                    )
+                }
+            })
+
+        })
+    })
+</script>

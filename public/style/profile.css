@@ -138,6 +138,10 @@ input:focus {
     font-size: 15px !important;
 }
 
+.fa-comment {
+    color: grey;
+}
+
 .btn {
     border-radius: 0 !important;
 }
@@ -148,10 +152,6 @@ i {
 
 .post-frame {
     max-width: 100% !important;
-}
-
-.post-action {
-    margin-top: -100px;
 }
 
 .card-footer {

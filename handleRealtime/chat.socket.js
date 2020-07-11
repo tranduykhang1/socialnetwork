@@ -10,6 +10,7 @@ module.exports = io => {
         userOnline = 'userOnline';
 
     io.on('connection', (socket) => {
+
         socket.on(newUser, userId => {
             users[userId] = socket.id;
             userModel.userOnline(userId);

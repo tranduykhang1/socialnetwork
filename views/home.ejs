@@ -12,57 +12,52 @@
     <%- include('./layout/header.ejs'); %>
 
         <% if (postSuccess.length) { %>
-            <div aria-live="polite" aria-atomic="true" style="position: relative; right: 10px">
-                <div class="toast" style="position: absolute; top: 0; right: 0" data-delay="3000">
-                    <div class="toast-body p-3 text-white shadow-sm" style="background-color: #009242;">
-                        <h6 class="p-0 m-0">Vừa đăng 1 bài viết mới !!</h6>
-                    </div>
-                </div>
-            </div>
-            <!-- <p class="text-center text-success" id="postSuccess">
+
+            <p class="text-center text-success" id="postSuccess">
                 <%-postSuccess%>
-            </p> -->
+            </p>
             <% } %>
                 <div class="container-fluid main row">
-                    <div class="col-sm-3 border ml-auto h-25 side-list">danh sach ban be</div>
-                    <div class="row d-block col-6">
-                        <div class="col-sm-12 col-md-10 col-lg-10 mx-auto mt-2 p-4 border shadow-sm" id="post-status">
-                            <img class="ml-3" width=40px height=40px src="<%=user.user_avatar%>" alt="" style="border-radius: 50px;">
-                            <button type="button" id="btn-model-post" class="btn btn-outline-dark col-sm-10 col-md-10" data-toggle="modal" data-target="#statusModel">
+
+                    <%- include('./components/recentUsers.ejs') %>
+
+                        <div class="row d-block col-6">
+                            <div class="col-sm-12 col-md-10 col-lg-10 mx-auto mt-2 p-4 border shadow-sm" id="post-status">
+                                <img class="ml-3" width=40px height=40px src="<%=user.user_avatar%>" alt="" style="border-radius: 50px;">
+                                <button type="button" id="btn-model-post" class="btn btn-outline-dark col-sm-10 col-md-10" data-toggle="modal" data-target="#statusModel">
                           Chào <%- user.user_lastname %> , Bạn đang nghĩ gì thế?
                           </button>
-                        </div>
-                        <div class="modal fade" id="statusModel" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                            <div class="modal-dialog" role="document">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h5 class="modal-title" id="exampleModalLabel">Tạo bài đăng mới</h5>
-                                        </button>
-                                    </div>
-                                    <form action="/postStatus" method="POST" enctype="multipart/form-data">
-                                        <div class="modal-body">
-                                            <div class="form-group">
-                                                <textarea class="form-control col-sm-12 " name="postContent" id="create-post-input" placeholder="Nội dung bài đăng" autocomplete="off" />
-                                                </textarea>
-                                                <label class="badge-dark rounded p-2 mt-2" for="post-img" title="Chọn hình">ADD PHOTO <i class="fas fa-images mt-2"></i></label>
-                                                <input type="file" name="postImg" class="d-none" id="post-img" />
-                                                <span class="text-muted ml-2 imgName"></span>
+                            </div>
+                            <div class="modal fade" id="statusModel" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="exampleModalLabel">Tạo bài đăng mới</h5>
+                                            </button>
+                                        </div>
+                                        <form action="/postStatus" method="POST" enctype="multipart/form-data">
+                                            <div class="modal-body">
+                                                <div class="form-group">
+                                                    <textarea class="form-control col-sm-12 " name="postContent" id="create-post-input" placeholder="Nội dung bài đăng" autocomplete="off" />
+                                                    </textarea>
+                                                    <label class="badge-dark rounded p-2 mt-2" for="post-img" title="Chọn hình">ADD PHOTO <i class="fas fa-images mt-2"></i></label>
+                                                    <input type="file" name="postImg" class="d-none" id="post-img" />
+                                                    <span class="text-muted ml-2 imgName"></span>
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div class="modal-footer">
-                                            <button type="submit" class="btn btn-primary col-sm-12">Đăng</button>
-                                        </div>
-                                    </form>
+                                            <div class="modal-footer">
+                                                <button type="submit" class="btn btn-primary col-sm-12">Đăng</button>
+                                            </div>
+                                        </form>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
 
-                        <!--post list-->
-                        <%- include('./components/postList.ejs') %>
                             <!--post list-->
-
-                    </div>
-                    <div class="col-sm-3 border h-25 side-list">danh sach online</div>
+                            <%- include('./components/postList.ejs') %>
+                                <!--post list-->
+                        </div>
+                        <div class="col-sm-3 border  h-25 side-list">danh sach ban be</div>
                 </div>
 
 
@@ -88,6 +83,7 @@
 
         // post comment
         $('.toast').toast('show')
+            //
 
 
 

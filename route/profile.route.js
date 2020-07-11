@@ -20,7 +20,7 @@ var upload = multer({ storage: storage })
 const profileController = require('../controller/profile.controller');
 const updateUserModel = require('../models/userAPI/user.model')
 route.get('/', isLogged, profileController.profile);
-
+route.get('/:user', isLogged, profileController.userProfile);
 route.post('/uploadBg', upload.single('backgroundProfile'), updateUserModel.uploadBg);
 route.post('/uploadAvatar', upload.single('avatarProfile'), updateUserModel.uploadAvatar);
 route.post('/updateProfile', updateUserModel.updateProfile);

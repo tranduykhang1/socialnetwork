@@ -35,19 +35,19 @@
             <% if(!post.post_image) {%>
 
                 <% } else {%>
-                    <img src="img/<%=post.post_image%>" width="100%" height="300px" />
+                    <img src="/img/<%=post.post_image%>" width="100%" height="300px" />
                     <% } %>
 
         </div>
         <div class="card-footer text-center mt-2">
             <div class="post-action">
-                <div class="col-sm-12 text-center d-flex">
+                <div class="col-sm-12 text-center d-flex m-0">
                     <a href="" class="col-sm-6 text-muted border-right" id="like<%=post.post_id%>">
                         <i class="fas fa-heart like<%=post.post_id%>"></i>
                         <span class="m-1 count-like<%=post.post_id%>"></span>
                     </a>
                     <a class="col-sm-6  show-cmt<%=post.post_id%>" data-toggle="collapse" href="#show-cmt<%=post.post_id%>" role="button" aria-expanded="false" aria-controls="collapseExample">
-                        <i class="far fa-comment"></i>
+                        <i class="fas fa-comment"></i>
                         <span class="m-1 count-comment<%=post.post_id%>"></span>
                     </a>
                 </div>
@@ -56,7 +56,7 @@
                         <div id="comment-main<%=post.post_id%>">
                             <% if(cmt.comment_postID == post.post_id) {%>
                                 <div class="media text-left comment p-1">
-                                    <img class="mr-3 img-user-cmt" src="<%=cmt.user_avatar%>">
+                                    <img class="mr-3 img-user-cmt" src="/<%=cmt.user_avatar%>">
                                     <div class="media-body">
                                         <h6 class="mt-0">
                                             <%- cmt.user_firstname + " " + cmt.user_lastname %>
@@ -78,7 +78,7 @@
                         <% }); %>
                             <div class="form-group mt-3">
                                 <form class="form-inline <%-post.post_id%>">
-                                    <img src="<%=user.user_avatar%>" class="rounded-pill ml-1" width=50px height=50px>
+                                    <img src="/<%=user.user_avatar%>" class="rounded-pill ml-1" width=50px height=50px>
                                     <input placeholder="Nhập bình luận" id="input<%-post.post_id%>" type="text" class="form-control ml-3 col-sm-10 rounded-pill border comment-input" autocomplete="off">
                                 </form>
                             </div>
@@ -178,7 +178,6 @@
                     postLike: id
                 })
                 countLike();
-
             })
             getAllLike();
             countLike();

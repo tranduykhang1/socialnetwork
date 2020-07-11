@@ -13,3 +13,9 @@ module.exports.home = (req, res) => {
         })
     })
 }
+module.exports.user = (req, res) => {
+    let userID = req.user.user_id
+    userModel.getUserById(userID, (err, user) => {
+        res.json(user)
+    })
+}

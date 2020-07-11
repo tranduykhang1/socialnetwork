@@ -16,8 +16,8 @@
     <div id="header">
         <nav class="navbar navbar-expand-lg navbar-light bg-default">
             <a class="navbar-brand" href="/profile">
-                <img id="img-avt" src="<%=user.user_avatar %>" />
-                <small class=""><%-user.user_firstname + " " + user.user_lastname%></small>
+                <img id="img-avt" class="current-avt" />
+                <small id="current-name"></small>
             </a>
             <i class="fas fa-sort-down pb-1" data-toggle="popover" data-placement="bottom"></i>
 
@@ -55,6 +55,12 @@
 
 <script>
     $(document).ready(function() {
+
+        $.get('/user_by_id').then(res => {
+            $('#current-name').text(res.user_firstname + " " + res.user_lastname)
+            $('.current-avt').attr('src', "/" + res.user_avatar)
+        })
+
 
         $('.fa-sort-down').popover({
             html: true,
