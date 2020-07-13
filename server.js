@@ -24,7 +24,8 @@ const loginRouter = require('./route/auth.route'),
     searchUser = require('./route/searchUser/searchUser.route'),
     //api
     status = require('./route/status/status.route'),
-    like = require('./route/like/like.route');
+    like = require('./route/like/like.route'),
+    friendRequest = require('./route/friend/friend.route');
 
 app.set('view engine', 'ejs');
 app.use(express.static(__dirname + '/public'));
@@ -50,7 +51,7 @@ app.use('/community', community);
 app.use('/profile', profile);
 app.use('/', message);
 app.use('/', status);
-
+app.use('/', friendRequest);
 app.use('/', comment);
 app.use('/', searchUser);
 app.use('/', like);

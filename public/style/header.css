@@ -33,6 +33,10 @@ html {
     box-shadow: 1px 2px 5px 0px rgb(207, 207, 207);
 }
 
+#search-form {
+    position: absolute;
+}
+
 #input-search {
     border: none;
     display: none;
@@ -97,7 +101,7 @@ html {
 
 .nav {
     margin-top: 6.5px;
-    margin-left: 29%;
+    margin-left: 40%;
 }
 
 .nav li a::before {
@@ -123,6 +127,35 @@ html {
 
 i {
     cursor: pointer;
+}
+
+.request-card {
+    position: absolute;
+    top: 40px;
+    width: 400px;
+    right: 0px;
+    display: none;
+}
+
+.lists>.btn {
+    padding: 5px 5px;
+    height: auto;
+    width: 50px;
+    margin: 5px;
+    font-size: 11px;
+}
+
+.active-notification {
+    color: rgb(27, 27, 253);
+}
+
+.count-notification {
+    position: relative;
+    top: 5px;
+    background-color: red;
+    color: white;
+    padding: 2px 3px !important;
+    border: none !important;
 }
 
 @media only screen and (max-width: 1200px) {

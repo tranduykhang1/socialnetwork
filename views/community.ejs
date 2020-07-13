@@ -27,11 +27,17 @@
                                     <div class="media p-3">
                                         <a href="/profile/<%=u.user_id%>" class="d-flex" data-toggle="popover" data-trigger="hover" data-placement="left" data-html="true" data-content="<img id='bg-popover' class='img-thumbnail mx-auto d-block' src='<%=u.user_background%>'/> <img id='avt-popover' width=80px height=80px class='mx-auto d-block' src='<%=u.user_avatar%>'/><br/> <h6 class='username-popover'><%=u.user_firstname + ' ' +u.user_lastname%> </h6>">
                             <img id="user-avt" src="<%= u.user_avatar%>" class="mr-3" alt="Avatar Err" width="50px" height="50px"/>
-                    <h6 class="p-2">
+                    <div class="d-block text-left">
+                            <h6 class="">
                         <%=u.user_firstname + " " + u.user_lastname %>
                     </h6>
+                    <p class="text-muted d-block">Đến từ: <%=u.user_address%></p>
+                </div>
                     </a>
-                                        <button id="addFriend<%=index%>" class="btn btn-outline-danger ml-auto">Kết bạn</button>
+                                        <div class="request<%=index%> ml-auto">
+                                            <button id="addFriend<%=index%>" class="btn btn-primary send-request">Thêm bạn <i class="fas fa-plus"></i></button>
+                                        </div>
+
                                     </div>
 
                                 </div>
@@ -39,11 +45,88 @@
 
                                     <script>
                                         $(function() {
-                                            $('#addFriend<%=index%>').click(() => {
-                                                $.post('/friend_request', {
-
+                                            let data = {
+                                                sendUser: '<%=user.user_id%>',
+                                                receiveUser: '<%=u.user_id%>'
+                                            }
+                                            $('body').on('click', '#addFriend<%=index%>', () => {
+                                                $.post('/friend_request',
+                                                    data
+                                                ).then(res => {
+                                                    if (res === "Send success!") {
+                                                        $('.request<%=index%>').html("").append(
+                                                            '<button id="cancel-Req<%=index%>" class="btn btn-outline-danger send-request">Huỷ</button>'
+                                                        )
+                                                    }
                                                 })
                                             })
+                                            $('body').on('click', "#cancel-Req<%=index%>", () => {
+                                                $.post('/cancel_request', data).then(res => {
+                                                    if (res === "Cancel success!") {
+                                                        $('.request<%=index%>').html("").append(
+                                                            '<button id="addFriend<%=index%>" class="btn btn-outline-primary send-request">Thêm bạn <i class="fas fa-plus"></i></button>'
+                                                        )
+                                                    }
+                                                })
+                                            })
+                                            let getListRequest = () => {
+                                                $.get('/list_request').then(res => {
+                                                    res.map(request => {
+                                                        if (request.fReq_sendUser == data.sendUser && request.fReq_receiveUser == data.receiveUser) {
+                                                            $('.request<%=index%>').html("").append(
+                                                                '<button id="cancel-Req<%=index%>" class="btn btn-outline-danger send-request">Huỷ</button>'
+                                                            )
+                                                        }
+                                                        if (request.fReq_sendUser == data.receiveUser && request.fReq_receiveUser == data.sendUser) {
+                                                            $('.request<%=index%>').html("").append(
+                                                                '<button id="denied-Req<%=index%>" class="btn btn-outline-danger">Xoá</button>' +
+                                                                '<button id="accept-Req<%=index%>" class="btn btn-outline-primary ml-2">Đồng ý</button>'
+                                                            )
+                                                        }
+                                                    })
+                                                })
+                                            }
+                                            let getListFriends = () => {
+                                                $.get('/list_friends').then(res => {
+                                                    res.map(request => {
+                                                        if (request.friend_user1 == data.receiveUser && request.friend_user2 == data.sendUser ||
+                                                            request.friend_user2 == data.receiveUser && request.friend_user1 == data.sendUser) {
+                                                            $('.request<%=index%>').html("").append(
+                                                                '<h6 class="text-right">Bạn bè</h6>'
+                                                            )
+                                                        }
+                                                    })
+                                                })
+                                            }
+
+
+                                            let deniedReq = () => {
+                                                $('body').on('click', '#denied-Req<%=index%>', () => {
+                                                    $.post('/denied_friend', data).then(res => {
+                                                        $('.request<%=index%>').html("").append(
+                                                            '<button id="addFriend<%=index%>" class="btn btn-outline-primary send-request">Thêm bạn <i class="fas fa-plus"></i></button>'
+                                                        )
+                                                    })
+                                                })
+                                            }
+                                            let acceptReq = () => {
+                                                $('body').on('click', '#accept-Req<%=index%>', () => {
+                                                    $.post('/accept_friend', data).then(res => {
+                                                        $('.request<%=index%>').html("").append(
+                                                            '<h6 class="text-right">Bạn bè</h6>'
+                                                        )
+                                                    })
+                                                })
+                                            }
+
+
+
+                                            deniedReq();
+                                            acceptReq();
+                                            getListRequest();
+                                            getListFriends();
+
+
                                         })
                                     </script>
                                     <% }) %>
@@ -51,8 +134,7 @@
         </div>
 
         <script>
-            $(document).ready(function() {
-
+            $(function() {
                 $(".nav li").removeClass('active');
                 $('#users').addClass('active');
 

@@ -78,8 +78,12 @@
                         <% }); %>
                             <div class="form-group mt-3">
                                 <form class="form-inline <%-post.post_id%>">
-                                    <img src="/<%=user.user_avatar%>" class="rounded-pill ml-1" width=50px height=50px>
-                                    <input placeholder="Nhập bình luận" id="input<%-post.post_id%>" type="text" class="form-control ml-3 col-sm-10 rounded-pill border comment-input" autocomplete="off">
+                                    <%if(!isUser){ %>
+                                        <img src="/<%=currentUser.user_avatar%>" class="rounded-pill ml-1" width=50px height=50px>
+                                        <%}else{%>
+                                            <img src="/<%=user.user_avatar%>" class="rounded-pill ml-1" width=50px height=50px>
+                                            <%}%>
+                                                <input placeholder="Nhập bình luận" id="input<%-post.post_id%>" type="text" class="form-control ml-3 col-sm-10 rounded-pill border comment-input" autocomplete="off">
                                 </form>
                             </div>
 
@@ -91,7 +95,16 @@
     <script>
         $(document).ready(function() {
             let id = "<%-post.post_id%>";
-            let currentUser = '<%=user.user_id%>';
+            let currentUser;
+            if ('<%=isUser%>' === 'false') {
+                console.log("false")
+                currentUser = '<%=currentUser.user_id%>'
+            }
+            if ('<%=isUser%>' === 'true') {
+                console.log("true")
+                currentUser = '<%=user.user_id%>';
+            }
+
             //count comment ajax
             let loadCount = () => {
                 $.ajax({
@@ -122,10 +135,10 @@
                     })
                     $('#comment-main' + id).prepend(
                         ' <div class="media text-left comment">' +
-                        ' <img class="mr-3 img-user-cmt" src="<%=user.user_avatar%>">' +
+                        ' <img class="mr-3 img-user-cmt" src="/<%=currentUser.user_avatar%>">' +
                         '  <div class="media-body">' +
                         ' <h6 class="mt-0 ">' +
-                        '  <%- user.user_firstname + " " + user.user_lastname %>' +
+                        '  <%- currentUser.user_firstname + " " + currentUser.user_lastname %>' +
                         ' </h6>' +
                         '  <p>' +
                         '   ' + $('#input' + id).val() + '' +
@@ -170,6 +183,7 @@
                     }
                 })
             }
+            console.log('current: ', currentUser)
             $('#like' + id).click((e) => {
                 e.preventDefault()
                 $('.like' + id).toggleClass('likeActive')

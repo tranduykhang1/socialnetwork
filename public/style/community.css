@@ -48,3 +48,20 @@
     text-align: center;
     padding-bottom: 10px;
 }
+
+.btn {
+    padding: .25rem .5rem !important;
+    font-size: .875rem !important;
+    line-height: 1.5;
+    border-radius: .2rem;
+    margin-left: auto;
+    width: 100px;
+}
+
+.fa-plus {
+    font-size: 10px;
+}
+
+.send-request:focus {
+    box-shadow: none;
+}
