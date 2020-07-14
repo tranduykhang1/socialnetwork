@@ -67,7 +67,7 @@ module.exports.denied = (req, res) => {
     })
 }
 module.exports.listFriends = (req, res) => {
-    db.query('SELECT * FROM friend', (err, rs) => {
+    db.query('SELECT user_id, user_avatar, user_lastname, user_firstname, friend_id, friend_user1, friend_user2 FROM friend, user where user_id = friend_user1 or user_id = friend_user2 group by user_id', (err, rs) => {
         res.status(200).json(rs)
     })
 }

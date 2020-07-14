@@ -21,7 +21,7 @@
 
                     <%- include('./components/recentUsers.ejs') %>
 
-                        <div class="row d-block col-6">
+                        <div class="row d-block col-6 home-main">
                             <div class="col-sm-12 col-md-10 col-lg-10 mx-auto mt-2 p-4 border shadow-sm" id="post-status">
                                 <img class="ml-3" width=40px height=40px src="<%=user.user_avatar%>" alt="" style="border-radius: 50px;">
                                 <button type="button" id="btn-model-post" class="btn btn-outline-dark col-sm-10 col-md-10" data-toggle="modal" data-target="#statusModel">
@@ -57,7 +57,8 @@
                             <%- include('./components/postList.ejs') %>
                                 <!--post list-->
                         </div>
-                        <div class="col-sm-3 border  h-25 side-list">danh sach ban be</div>
+                        <!-- friends list-->
+                        <%- include('./components/friendList.ejs') %>
                 </div>
 
 
@@ -85,7 +86,17 @@
         $('.toast').toast('show')
             //
 
-
+        $(window).resize(() => {
+            let width = window.innerWidth;
+            if (width <= 1000) {
+                $('.side-list').hide();
+                $('.home-main').removeClass('col-sm-12').addClass('col-sm-9 col-md-9 mx-auto')
+            }
+            if (width >= 1000) {
+                $('.side-list').show();
+                $('.home-main').removeClass('col-sm-9 col-md-9').addClass('col-sm-6')
+            }
+        })
 
 
 

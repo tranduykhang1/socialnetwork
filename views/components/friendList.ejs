@@ -1,0 +1,33 @@
+<div class="col-sm-3 border  h-25 side-list">
+    <div class="card" style="border: none !important">
+        <div class="card-title">
+            <h6 class="text-center p-3">Bạn bè</h6>
+        </div>
+        <div class="card-body list-friend">
+
+        </div>
+    </div>
+
+</div>
+
+
+<script>
+    $(function() {
+        $.get('/list_friends').then(res => {
+            res.map(userId => {
+                if ((userId.friend_user1 == '<%=user.user_id%>' || userId.friend_user2 == '<%=user.user_id%>') && userId.user_id != '<%=user.user_id%>') {
+                    $('.list-friend').append(
+                        '<a class="text-dark" href="/profile/' + userId.user_id + '">' +
+                        '<div class="media p-2 user-items d-flex align-items-center">' +
+                        ' <img height="50px" width="50px" class="mr-2 rounded-circle" src="/' + userId.user_avatar + '" alt="Ảnh đại diện">' +
+                        '<div class="media-body ">' +
+                        '  <strong class="mt-0">' + userId.user_firstname + " " + userId.user_lastname + '</strong>' +
+                        '</div>' +
+                        '</div>' +
+                        '</a>'
+                    )
+                }
+            })
+        })
+    })
+</script>
