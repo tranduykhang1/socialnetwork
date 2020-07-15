@@ -6,7 +6,8 @@ const express = require('express'),
     flash = require('connect-flash'),
     passport = require('passport'),
     socketIo = require('socket.io'),
-    server = app.listen(process.env.PORT || 8001),
+	PORT = process.env.PORT || 8001,
+    server = app.listen(PORT),
     io = socketIo.listen(server);
 
 
